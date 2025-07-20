@@ -14,16 +14,7 @@
     --pokeball-black: #2d3748;
 }
 
-/* Dark mode variables */
-[data-theme="dark"] {
-    --primary-bg: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
-    --secondary-bg: rgba(45, 55, 72, 0.95);
-    --text-primary: #f7fafc;
-    --text-secondary: #e2e8f0;
-    --border-color: #4a5568;
-    --shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-    --shadow-hover: 0 15px 35px rgba(0, 0, 0, 0.4);
-}
+
 
 * {
     margin: 0;
@@ -71,7 +62,7 @@ body::before {
     text-align: center;
     margin-bottom: 30px;
     padding: 30px 20px;
-    background: var(--secondary-bg);
+    background: transparent;
     border-radius: 20px;
     box-shadow: var(--shadow);
     backdrop-filter: blur(10px);
@@ -151,32 +142,7 @@ body::before {
     color: var(--pokeball-red);
 }
 
-/* Theme Toggle */
-.theme-toggle {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    z-index: 1000;
-}
 
-#theme-btn {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    border: none;
-    background: var(--secondary-bg);
-    color: var(--text-primary);
-    font-size: 1.2rem;
-    cursor: pointer;
-    box-shadow: var(--shadow);
-    backdrop-filter: blur(10px);
-    transition: all 0.3s ease;
-}
-
-#theme-btn:hover {
-    transform: scale(1.1);
-    box-shadow: var(--shadow-hover);
-}
 
 /* Tab Content */
 .tab-content {
@@ -406,17 +372,6 @@ body::before {
     .btn-icon {
         width: 35px;
         height: 35px;
-        font-size: 1.1rem;
-    }
-    
-    .theme-toggle {
-        top: 15px;
-        right: 15px;
-    }
-    
-    #theme-btn {
-        width: 45px;
-        height: 45px;
         font-size: 1.1rem;
     }
 }

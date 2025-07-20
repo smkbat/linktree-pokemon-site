@@ -1,13 +1,7 @@
 // DOM Elements
 const tabBtns = document.querySelectorAll('.tab-btn');
 const tabContents = document.querySelectorAll('.tab-content');
-const themeBtn = document.getElementById('theme-btn');
 const cardsGrid = document.getElementById('cards-grid');
-
-// Theme management
-let currentTheme = localStorage.getItem('theme') || 'light';
-document.documentElement.setAttribute('data-theme', currentTheme);
-updateThemeIcon();
 
 // Tab switching functionality
 tabBtns.forEach(btn => {
@@ -29,22 +23,7 @@ tabBtns.forEach(btn => {
     });
 });
 
-// Theme toggle functionality
-themeBtn.addEventListener('click', () => {
-    currentTheme = currentTheme === 'light' ? 'dark' : 'light';
-    document.documentElement.setAttribute('data-theme', currentTheme);
-    localStorage.setItem('theme', currentTheme);
-    updateThemeIcon();
-});
 
-function updateThemeIcon() {
-    const icon = themeBtn.querySelector('i');
-    if (currentTheme === 'dark') {
-        icon.className = 'fas fa-sun';
-    } else {
-        icon.className = 'fas fa-moon';
-    }
-}
 
 // Card loading functionality
 async function loadCards() {
