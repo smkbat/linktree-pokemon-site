@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokémon Trainer Hub</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One:wght@400&family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Profile Section -->
+        <div class="profile-section">
+            <div class="profile-pic">
+                <img src="assets/profile-pic.jpg" alt="Pokémon Trainer" id="profile-image">
+            </div>
+            <h1 class="trainer-name">Ash Ketchum</h1>
+            <p class="trainer-bio">Pokémon Master in Training • Gotta Catch 'Em All!</p>
+        </div>
+
+        <!-- Tab Switcher -->
+        <div class="tab-container">
+            <button class="tab-btn active" data-tab="links">
+                <i class="fas fa-link"></i> Links
+            </button>
+            <button class="tab-btn" data-tab="cards">
+                <i class="fas fa-cards-blank"></i> Cards
+            </button>
+        </div>
+
+        <!-- Theme Toggle -->
+        <div class="theme-toggle">
+            <button id="theme-btn">
+                <i class="fas fa-moon"></i>
+            </button>
+        </div>
+
+        <!-- Links Tab Content -->
+        <div class="tab-content active" id="links-content">
+            <div class="links-container">
+                <a href="https://venmo.com/YOUR_USERNAME" class="link-btn venmo-btn" target="_blank">
+                    <div class="btn-icon">
+                        <i class="fab fa-venmo"></i>
+                    </div>
+                    <span class="btn-text">Venmo</span>
+                </a>
+
+                <a href="https://cash.app/$YOUR_USERNAME" class="link-btn cashapp-btn" target="_blank">
+                    <div class="btn-icon">
+                        <i class="fas fa-dollar-sign"></i>
+                    </div>
+                    <span class="btn-text">Cash App</span>
+                </a>
+
+                <a href="https://paypal.me/YOUR_USERNAME" class="link-btn paypal-btn" target="_blank">
+                    <div class="btn-icon">
+                        <i class="fab fa-paypal"></i>
+                    </div>
+                    <span class="btn-text">PayPal</span>
+                </a>
+
+                <a href="https://instagram.com/YOUR_USERNAME" class="link-btn instagram-btn" target="_blank">
+                    <div class="btn-icon">
+                        <i class="fab fa-instagram"></i>
+                    </div>
+                    <span class="btn-text">Instagram</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Cards Tab Content -->
+        <div class="tab-content" id="cards-content">
+            <div class="cards-container">
+                <div class="cards-grid" id="cards-grid">
+                    <!-- Cards will be loaded dynamically from cards.json -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>Made with <i class="fas fa-heart"></i> for Pokémon Trainers</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html> 

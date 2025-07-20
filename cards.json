@@ -1,0 +1,357 @@
+[
+  {
+    "name": "Charizard",
+    "image": "assets/cards/charizard.jpg",
+    "rarity": "Legendary"
+  },
+  {
+    "name": "Pikachu",
+    "image": "assets/cards/pikachu.jpg",
+    "rarity": "Rare"
+  },
+  {
+    "name": "Blastoise",
+    "image": "assets/cards/blastoise.jpg",
+    "rarity": "Legendary"
+  },
+  {
+    "name": "Venusaur",
+    "image": "assets/cards/venusaur.jpg",
+    "rarity": "Legendary"
+  },
+  {
+    "name": "Mewtwo",
+    "image": "assets/cards/mewtwo.jpg",
+    "rarity": "Mythical"
+  },
+  {
+    "name": "Gyarados",
+    "image": "assets/cards/gyarados.jpg",
+    "rarity": "Rare"
+  },
+  {
+    "name": "Alakazam",
+    "image": "assets/cards/alakazam.jpg",
+    "rarity": "Rare"
+  },
+  {
+    "name": "Machamp",
+    "image": "assets/cards/machamp.jpg",
+    "rarity": "Rare"
+  },
+  {
+    "name": "Gengar",
+    "image": "assets/cards/gengar.jpg",
+    "rarity": "Rare"
+  },
+  {
+    "name": "Dragonite",
+    "image": "assets/cards/dragonite.jpg",
+    "rarity": "Legendary"
+  },
+  {
+    "name": "Snorlax",
+    "image": "assets/cards/snorlax.jpg",
+    "rarity": "Rare"
+  },
+  {
+    "name": "Lapras",
+    "image": "assets/cards/lapras.jpg",
+    "rarity": "Uncommon"
+  },
+  {
+    "name": "Vaporeon",
+    "image": "assets/cards/vaporeon.jpg",
+    "rarity": "Uncommon"
+  },
+  {
+    "name": "Jolteon",
+    "image": "assets/cards/jolteon.jpg",
+    "rarity": "Uncommon"
+  },
+  {
+    "name": "Flareon",
+    "image": "assets/cards/flareon.jpg",
+    "rarity": "Uncommon"
+  },
+  {
+    "name": "Arcanine",
+    "image": "assets/cards/arcanine.jpg",
+    "rarity": "Rare"
+  },
+  {
+    "name": "Raichu",
+    "image": "assets/cards/raichu.jpg",
+    "rarity": "Uncommon"
+  },
+  {
+    "name": "Ninetales",
+    "image": "assets/cards/ninetales.jpg",
+    "rarity": "Uncommon"
+  },
+  {
+    "name": "Wigglytuff",
+    "image": "assets/cards/wigglytuff.jpg",
+    "rarity": "Common"
+  },
+  {
+    "name": "Clefable",
+    "image": "assets/cards/clefable.jpg",
+    "rarity": "Common"
+  },
+  {
+    "name": "Nidoking",
+    "image": "assets/cards/nidoking.jpg",
+    "rarity": "Rare"
+  },
+  {
+    "name": "Nidoqueen",
+    "image": "assets/cards/nidoqueen.jpg",
+    "rarity": "Rare"
+  },
+  {
+    "name": "Poliwrath",
+    "image": "assets/cards/poliwrath.jpg",
+    "rarity": "Uncommon"
+  },
+  {
+    "name": "Kadabra",
+    "image": "assets/cards/kadabra.jpg",
+    "rarity": "Uncommon"
+  },
+  {
+    "name": "Magneton",
+    "image": "assets/cards/magneton.jpg",
+    "rarity": "Uncommon"
+  },
+  {
+    "name": "Dodrio",
+    "image": "assets/cards/dodrio.jpg",
+    "rarity": "Common"
+  },
+  {
+    "name": "Dewgong",
+    "image": "assets/cards/dewgong.jpg",
+    "rarity": "Common"
+  },
+  {
+    "name": "Muk",
+    "image": "assets/cards/muk.jpg",
+    "rarity": "Common"
+  },
+  {
+    "name": "Cloyster",
+    "image": "assets/cards/cloyster.jpg",
+    "rarity": "Uncommon"
+  },
+  {
+    "name": "Gastly",
+    "image": "assets/cards/gastly.jpg",
+    "rarity": "Common"
+  },
+  {
+    "name": "Haunter",
+    "image": "assets/cards/haunter.jpg",
+    "rarity": "Uncommon"
+  },
+  {
+    "name": "Hypno",
+    "image": "assets/cards/hypno.jpg",
+    "rarity": "Uncommon"
+  },
+  {
+    "name": "Kingler",
+    "image": "assets/cards/kingler.jpg",
+    "rarity": "Common"
+  },
+  {
+    "name": "Electrode",
+    "image": "assets/cards/electrode.jpg",
+    "rarity": "Common"
+  },
+  {
+    "name": "Exeggutor",
+    "image": "assets/cards/exeggutor.jpg",
+    "rarity": "Uncommon"
+  },
+  {
+    "name": "Marowak",
+    "image": "assets/cards/marowak.jpg",
+    "rarity": "Common"
+  },
+  {
+    "name": "Hitmonlee",
+    "image": "assets/cards/hitmonlee.jpg",
+    "rarity": "Rare"
+  },
+  {
+    "name": "Hitmonchan",
+    "image": "assets/cards/hitmonchan.jpg",
+    "rarity": "Rare"
+  },
+  {
+    "name": "Lickitung",
+    "image": "assets/cards/lickitung.jpg",
+    "rarity": "Common"
+  },
+  {
+    "name": "Weezing",
+    "image": "assets/cards/weezing.jpg",
+    "rarity": "Uncommon"
+  },
+  {
+    "name": "Rhydon",
+    "image": "assets/cards/rhydon.jpg",
+    "rarity": "Rare"
+  },
+  {
+    "name": "Chansey",
+    "image": "assets/cards/chansey.jpg",
+    "rarity": "Rare"
+  },
+  {
+    "name": "Tangela",
+    "image": "assets/cards/tangela.jpg",
+    "rarity": "Common"
+  },
+  {
+    "name": "Kangaskhan",
+    "image": "assets/cards/kangaskhan.jpg",
+    "rarity": "Rare"
+  },
+  {
+    "name": "Seaking",
+    "image": "assets/cards/seaking.jpg",
+    "rarity": "Common"
+  },
+  {
+    "name": "Starmie",
+    "image": "assets/cards/starmie.jpg",
+    "rarity": "Uncommon"
+  },
+  {
+    "name": "Mr. Mime",
+    "image": "assets/cards/mr-mime.jpg",
+    "rarity": "Rare"
+  },
+  {
+    "name": "Scyther",
+    "image": "assets/cards/scyther.jpg",
+    "rarity": "Rare"
+  },
+  {
+    "name": "Jynx",
+    "image": "assets/cards/jynx.jpg",
+    "rarity": "Rare"
+  },
+  {
+    "name": "Electabuzz",
+    "image": "assets/cards/electabuzz.jpg",
+    "rarity": "Rare"
+  },
+  {
+    "name": "Magmar",
+    "image": "assets/cards/magmar.jpg",
+    "rarity": "Rare"
+  },
+  {
+    "name": "Pinsir",
+    "image": "assets/cards/pinsir.jpg",
+    "rarity": "Rare"
+  },
+  {
+    "name": "Tauros",
+    "image": "assets/cards/tauros.jpg",
+    "rarity": "Rare"
+  },
+  {
+    "name": "Magikarp",
+    "image": "assets/cards/magikarp.jpg",
+    "rarity": "Common"
+  },
+  {
+    "name": "Ditto",
+    "image": "assets/cards/ditto.jpg",
+    "rarity": "Rare"
+  },
+  {
+    "name": "Vaporeon",
+    "image": "assets/cards/vaporeon.jpg",
+    "rarity": "Uncommon"
+  },
+  {
+    "name": "Jolteon",
+    "image": "assets/cards/jolteon.jpg",
+    "rarity": "Uncommon"
+  },
+  {
+    "name": "Flareon",
+    "image": "assets/cards/flareon.jpg",
+    "rarity": "Uncommon"
+  },
+  {
+    "name": "Omanyte",
+    "image": "assets/cards/omanyte.jpg",
+    "rarity": "Common"
+  },
+  {
+    "name": "Omastar",
+    "image": "assets/cards/omastar.jpg",
+    "rarity": "Uncommon"
+  },
+  {
+    "name": "Kabuto",
+    "image": "assets/cards/kabuto.jpg",
+    "rarity": "Common"
+  },
+  {
+    "name": "Kabutops",
+    "image": "assets/cards/kabutops.jpg",
+    "rarity": "Uncommon"
+  },
+  {
+    "name": "Aerodactyl",
+    "image": "assets/cards/aerodactyl.jpg",
+    "rarity": "Rare"
+  },
+  {
+    "name": "Snorlax",
+    "image": "assets/cards/snorlax.jpg",
+    "rarity": "Rare"
+  },
+  {
+    "name": "Articuno",
+    "image": "assets/cards/articuno.jpg",
+    "rarity": "Legendary"
+  },
+  {
+    "name": "Zapdos",
+    "image": "assets/cards/zapdos.jpg",
+    "rarity": "Legendary"
+  },
+  {
+    "name": "Moltres",
+    "image": "assets/cards/moltres.jpg",
+    "rarity": "Legendary"
+  },
+  {
+    "name": "Dratini",
+    "image": "assets/cards/dratini.jpg",
+    "rarity": "Rare"
+  },
+  {
+    "name": "Dragonair",
+    "image": "assets/cards/dragonair.jpg",
+    "rarity": "Rare"
+  },
+  {
+    "name": "Dragonite",
+    "image": "assets/cards/dragonite.jpg",
+    "rarity": "Legendary"
+  },
+  {
+    "name": "Mew",
+    "image": "assets/cards/mew.jpg",
+    "rarity": "Mythical"
+  }
+] 
