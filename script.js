@@ -5,6 +5,7 @@ const cardsGrid = document.getElementById('cards-grid');
 
 // Tab switching functionality
 tabBtns.forEach(btn => {
+    // Click event
     btn.addEventListener('click', () => {
         const targetTab = btn.getAttribute('data-tab');
         
@@ -18,6 +19,19 @@ tabBtns.forEach(btn => {
         
         // Load cards if switching to cards tab
         if (targetTab === 'cards') {
+            console.log('Cards tab activated (click)');
+            loadCards();
+        }
+    });
+    // Touch event for mobile
+    btn.addEventListener('touchstart', () => {
+        const targetTab = btn.getAttribute('data-tab');
+        tabBtns.forEach(b => b.classList.remove('active'));
+        tabContents.forEach(content => content.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById(`${targetTab}-content`).classList.add('active');
+        if (targetTab === 'cards') {
+            console.log('Cards tab activated (touch)');
             loadCards();
         }
     });
