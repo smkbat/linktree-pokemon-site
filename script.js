@@ -1,99 +1,160 @@
-// DOM Elements
-const tabBtns = document.querySelectorAll('.tab-btn');
-const tabContents = document.querySelectorAll('.tab-content');
-const cardsGrid = document.getElementById('cards-grid');
+console.log("Script file loaded");
 
-// Tab switching functionality
-tabBtns.forEach(btn => {
-    // Click event
-    btn.addEventListener('click', () => {
-        const targetTab = btn.getAttribute('data-tab');
+document.addEventListener('DOMContentLoaded', function() {
+    console.log("DOM loaded, initializing...");
+    
+    // DOM Elements
+    const tabBtns = document.querySelectorAll('.tab-btn');
+    const tabContents = document.querySelectorAll('.tab-content');
+    const cardsGrid = document.getElementById('cards-grid');
+    
+    console.log("Found tab buttons:", tabBtns.length);
+    console.log("Found tab contents:", tabContents.length);
+    console.log("Found cards grid:", cardsGrid ? "yes" : "no");
+
+    // Tab switching functionality
+    tabBtns.forEach(btn => {
+        console.log("Adding event listeners to button:", btn.textContent.trim());
         
-        // Remove active class from all buttons and contents
-        tabBtns.forEach(b => b.classList.remove('active'));
-        tabContents.forEach(content => content.classList.remove('active'));
+        // Click event
+        btn.addEventListener('click', () => {
+            const targetTab = btn.getAttribute('data-tab');
+            console.log('Tab clicked:', targetTab);
+            
+            // Remove active class from all buttons and contents
+            tabBtns.forEach(b => b.classList.remove('active'));
+            tabContents.forEach(content => content.classList.remove('active'));
+            
+            // Add active class to clicked button and corresponding content
+            btn.classList.add('active');
+            const targetContent = document.getElementById(`${targetTab}-content`);
+            console.log('Target content element:', targetContent);
+            
+            if (targetContent) {
+                targetContent.classList.add('active');
+                console.log('Content activated:', targetTab);
+            } else {
+                console.error('Target content not found:', `${targetTab}-content`);
+            }
+            
+            // Load cards if switching to cards tab
+            if (targetTab === 'cards') {
+                console.log('Cards tab activated (click)');
+                loadCards();
+            }
+        });
         
-        // Add active class to clicked button and corresponding content
-        btn.classList.add('active');
-        document.getElementById(`${targetTab}-content`).classList.add('active');
-        
-        // Load cards if switching to cards tab
-        if (targetTab === 'cards') {
-            console.log('Cards tab activated (click)');
-            loadCards();
-        }
+        // Touch event for mobile
+        btn.addEventListener('touchstart', (e) => {
+            e.preventDefault(); // Prevent double-firing with click
+            const targetTab = btn.getAttribute('data-tab');
+            console.log('Tab touched:', targetTab);
+            
+            // Remove active class from all buttons and contents
+            tabBtns.forEach(b => b.classList.remove('active'));
+            tabContents.forEach(content => content.classList.remove('active'));
+            
+            // Add active class to clicked button and corresponding content
+            btn.classList.add('active');
+            const targetContent = document.getElementById(`${targetTab}-content`);
+            console.log('Target content element (touch):', targetContent);
+            
+            if (targetContent) {
+                targetContent.classList.add('active');
+                console.log('Content activated (touch):', targetTab);
+            } else {
+                console.error('Target content not found (touch):', `${targetTab}-content`);
+            }
+            
+            if (targetTab === 'cards') {
+                console.log('Cards tab activated (touch)');
+                loadCards();
+            }
+        });
     });
-    // Touch event for mobile
-    btn.addEventListener('touchstart', () => {
-        const targetTab = btn.getAttribute('data-tab');
-        tabBtns.forEach(b => b.classList.remove('active'));
-        tabContents.forEach(content => content.classList.remove('active'));
-        btn.classList.add('active');
-        document.getElementById(`${targetTab}-content`).classList.add('active');
-        if (targetTab === 'cards') {
-            console.log('Cards tab activated (touch)');
-            loadCards();
+
+    // Card loading functionality
+    async function loadCards() {
+        console.log('loadCards() function called');
+        
+        // Show loading state
+        if (cardsGrid) {
+            cardsGrid.innerHTML = '<div class="loading">Loading your Pokémon cards...</div>';
+            console.log('Loading message displayed');
+        } else {
+            console.error('cardsGrid element not found');
+            return;
         }
-    });
+        
+        try {
+            console.log('Fetching cards.json...');
+            const response = await fetch('cards.json');
+            console.log('Fetch response status:', response.status);
+            
+            if (!response.ok) {
+                throw new Error(`Failed to load cards: ${response.status}`);
+            }
+            
+            const cards = await response.json();
+            console.log('Cards loaded:', cards.length, 'cards');
+            displayCards(cards);
+        } catch (error) {
+            console.error('Error loading cards:', error);
+            if (cardsGrid) {
+                cardsGrid.innerHTML = `
+                    <div style="text-align: center; padding: 40px; color: var(--text-secondary);">
+                        <i class="fas fa-exclamation-triangle" style="font-size: 2rem; margin-bottom: 15px; color: var(--pokeball-red);"></i>
+                        <p>Failed to load cards. Error: ${error.message}</p>
+                    </div>
+                `;
+            }
+        }
+    }
+
+    function displayCards(cards) {
+        console.log('displayCards() called with:', cards.length, 'cards');
+        
+        if (!cards || cards.length === 0) {
+            console.log('No cards to display');
+            if (cardsGrid) {
+                cardsGrid.innerHTML = `
+                    <div style="text-align: center; padding: 40px; color: var(--text-secondary);">
+                        <i class="fas fa-cards-blank" style="font-size: 2rem; margin-bottom: 15px; color: var(--pokeball-red);"></i>
+                        <p>No cards found. Add some cards to your cards.json file!</p>
+                    </div>
+                `;
+            }
+            return;
+        }
+        
+        const cardsHTML = cards.map(card => `
+            <div class="card-item">
+                <img src="${card.image}" alt="${card.name}" class="card-image" onerror="this.src='assets/card-placeholder.jpg'">
+                <div class="card-info">
+                    <h3 class="card-name">${card.name}</h3>
+                    <span class="card-rarity rarity-${card.rarity.toLowerCase()}">${card.rarity}</span>
+                </div>
+            </div>
+        `).join('');
+        
+        if (cardsGrid) {
+            cardsGrid.innerHTML = cardsHTML;
+            console.log('Cards HTML inserted into grid');
+        } else {
+            console.error('cardsGrid element not found in displayCards');
+        }
+    }
+
+    // Profile image fallback
+    const profileImage = document.getElementById('profile-image');
+    if (profileImage) {
+        profileImage.addEventListener('error', function() {
+            this.src = 'assets/default-profile.jpg';
+        });
+    }
+
+    console.log("Initialization complete");
 });
-
-
-
-// Card loading functionality
-async function loadCards() {
-    // Show loading state
-    cardsGrid.innerHTML = '<div class="loading">Loading your Pokémon cards...</div>';
-    
-    try {
-        const response = await fetch('cards.json');
-        if (!response.ok) {
-            throw new Error('Failed to load cards');
-        }
-        
-        const cards = await response.json();
-        displayCards(cards);
-    } catch (error) {
-        console.error('Error loading cards:', error);
-        cardsGrid.innerHTML = `
-            <div style="text-align: center; padding: 40px; color: var(--text-secondary);">
-                <i class="fas fa-exclamation-triangle" style="font-size: 2rem; margin-bottom: 15px; color: var(--pokeball-red);"></i>
-                <p>Failed to load cards. Please check your cards.json file.</p>
-            </div>
-        `;
-    }
-}
-
-function displayCards(cards) {
-    if (!cards || cards.length === 0) {
-        cardsGrid.innerHTML = `
-            <div style="text-align: center; padding: 40px; color: var(--text-secondary);">
-                <i class="fas fa-cards-blank" style="font-size: 2rem; margin-bottom: 15px; color: var(--pokeball-red);"></i>
-                <p>No cards found. Add some cards to your cards.json file!</p>
-            </div>
-        `;
-        return;
-    }
-    
-    const cardsHTML = cards.map(card => `
-        <div class="card-item">
-            <img src="${card.image}" alt="${card.name}" class="card-image" onerror="this.src='assets/card-placeholder.jpg'">
-            <div class="card-info">
-                <h3 class="card-name">${card.name}</h3>
-                <span class="card-rarity rarity-${card.rarity.toLowerCase()}">${card.rarity}</span>
-            </div>
-        </div>
-    `).join('');
-    
-    cardsGrid.innerHTML = cardsHTML;
-}
-
-// Profile image fallback
-const profileImage = document.getElementById('profile-image');
-if (profileImage) {
-    profileImage.addEventListener('error', function() {
-        this.src = 'assets/default-profile.jpg';
-    });
-}
 
 // Smooth scroll for better UX
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
