@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobile Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background: #f0f0f0;
+        }
+        .test-box {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 10px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .mobile { color: #e74c3c; font-weight: bold; }
+        .desktop { color: #27ae60; font-weight: bold; }
+        .info { color: #3498db; }
+        .success { color: #27ae60; }
+        .error { color: #e74c3c; }
+    </style>
+</head>
+<body>
+    <h1>📱 Mobile Detection Test</h1>
+    
+    <div class="test-box">
+        <h2>Device Information</h2>
+        <div id="device-info"></div>
+    </div>
+    
+    <div class="test-box">
+        <h2>Starfield Settings</h2>
+        <div id="starfield-settings"></div>
+    </div>
+    
+    <div class="test-box">
+        <h2>Test Links</h2>
+        <p><a href="https://staffascardshop.netlify.app" target="_blank">🌐 Main Site</a></p>
+        <p><a href="https://staffascardshop.netlify.app/test-starfield.html" target="_blank">⭐ Starfield Test</a></p>
+        <p><a href="https://staffascardshop.netlify.app/starfield.html" target="_blank">🎮 Full Starfield Demo</a></p>
+    </div>
+
+    <script>
+        function addInfo(container, message, className = 'info') {
+            const div = document.createElement('div');
+            div.className = className;
+            div.textContent = message;
+            container.appendChild(div);
+        }
+        
+        // Device detection (same as starfield)
+        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth <= 768;
+        
+        // Device info
+        const deviceInfo = document.getElementById('device-info');
+        addInfo(deviceInfo, `Device Type: ${isMobile ? 'Mobile' : 'Desktop'}`, isMobile ? 'mobile' : 'desktop');
+        addInfo(deviceInfo, `Screen Size: ${window.innerWidth} x ${window.innerHeight}`, 'info');
+        addInfo(deviceInfo, `User Agent: ${navigator.userAgent}`, 'info');
+        addInfo(deviceInfo, `Platform: ${navigator.platform}`, 'info');
+        
+        // Starfield settings
+        const settingsInfo = document.getElementById('starfield-settings');
+        const starCount = isMobile ? 8000 : 20000;
+        const twinkleSpeed = isMobile ? 0.5 : 1.0;
+        const shootingFreq = isMobile ? 5.0 : 3.0;
+        const mouseSensitivity = isMobile ? 0.3 : 0.5;
+        
+        addInfo(settingsInfo, `Star Count: ${starCount.toLocaleString()}`, 'success');
+        addInfo(settingsInfo, `Twinkle Speed: ${twinkleSpeed}`, 'success');
+        addInfo(settingsInfo, `Shooting Star Frequency: ${shootingFreq}s`, 'success');
+        addInfo(settingsInfo, `Mouse Sensitivity: ${mouseSensitivity}`, 'success');
+        
+        // Performance test
+        addInfo(settingsInfo, `Performance: ${isMobile ? 'Optimized for mobile' : 'Full desktop experience'}`, 'info');
+        
+        // Resize detection
+        window.addEventListener('resize', () => {
+            const newIsMobile = window.innerWidth <= 768;
+            if (newIsMobile !== isMobile) {
+                addInfo(deviceInfo, `⚠️ Screen resized! Now: ${newIsMobile ? 'Mobile' : 'Desktop'}`, 'error');
+            }
+        });
+    </script>
+</body>
+</html> 
