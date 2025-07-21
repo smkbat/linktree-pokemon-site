@@ -659,8 +659,8 @@ body {
     box-shadow: none !important;
     color: var(--text-primary) !important;
     text-shadow: none !important;
-    backdrop-filter: blur(1px) !important;
-    -webkit-backdrop-filter: blur(1px) !important;
+    backdrop-filter: blur(0.3px) !important;
+    -webkit-backdrop-filter: blur(0.3px) !important;
 }
 
 @media (max-width: 900px) {
@@ -680,7 +680,7 @@ body {
     box-shadow: none !important;
     color: var(--text-primary) !important;
     text-shadow: none !important;
-    backdrop-filter: blur(1px) !important;
-    -webkit-backdrop-filter: blur(1px) !important;
+    backdrop-filter: blur(0.3px) !important;
+    -webkit-backdrop-filter: blur(0.3px) !important;
   }
 }
