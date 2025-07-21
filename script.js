@@ -1,4 +1,6 @@
-console.log("Script file loaded");
+console.log("Script file loaded - Version 20241220");
+console.log("User Agent:", navigator.userAgent);
+console.log("Screen size:", window.innerWidth, "x", window.innerHeight);
 
 // 3D Starfield Class
 class Starfield {
