@@ -265,12 +265,14 @@ body::before {
 
 /* Cards Container */
 .cards-container {
-    background: rgba(255, 255, 255, 0.95);
+    background: rgba(30, 30, 50, 0.35); /* semi-transparent for galaxy effect */
     border-radius: 20px;
     padding: 25px;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
     backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    position: relative;
+    z-index: 1;
 }
 
 .cards-grid {
@@ -280,13 +282,15 @@ body::before {
 }
 
 .card-item {
-    background: rgba(255, 255, 255, 0.9);
+    background: rgba(30, 30, 50, 0.25); /* semi-transparent for galaxy effect */
     border-radius: 15px;
     overflow: hidden;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
-    border: 1px solid rgba(255, 255, 255, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.15);
     backdrop-filter: blur(10px);
+    position: relative;
+    z-index: 1;
 }
 
 .card-item:hover {
