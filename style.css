@@ -797,3 +797,14 @@ body {
     margin-top: 0 !important;
     padding-top: 0 !important;
 }
+
+.footer {
+    background: none !important;
+    border: none !important;
+    box-shadow: none !important;
+    font-size: 0.85rem !important;
+    color: rgba(255,255,255,0.7) !important;
+    text-align: center !important;
+    margin: 24px 0 0 0 !important;
+    padding: 12px 0 0 0 !important;
+}
