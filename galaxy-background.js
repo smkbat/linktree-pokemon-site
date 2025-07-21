@@ -28,6 +28,16 @@ window.addEventListener('DOMContentLoaded', function() {
   });
   renderer.setSize(width, height);
   renderer.setClearColor(0x000010, 1); // Dark blue background
+  
+  // Apply inline styles to ensure it works on mobile
+  renderer.domElement.style.position = 'fixed';
+  renderer.domElement.style.top = '0';
+  renderer.domElement.style.left = '0';
+  renderer.domElement.style.width = '100%';
+  renderer.domElement.style.height = '100%';
+  renderer.domElement.style.zIndex = '-999';
+  renderer.domElement.style.pointerEvents = 'none';
+  
   container.appendChild(renderer.domElement);
 
   // Starfield parameters
@@ -84,4 +94,7 @@ window.addEventListener('DOMContentLoaded', function() {
     camera.updateProjectionMatrix();
     renderer.setSize(width, height);
   });
+  
+  // Force a background color on the body to ensure proper rendering on mobile
+  document.body.style.backgroundColor = '#000010';
 });

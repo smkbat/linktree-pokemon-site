@@ -4,10 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pokémon Trainer Hub</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One:wght@400&family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Load Three.js -->
+    <!-- Load Three.js first -->
     <script src="https://unpkg.com/three@0.158.0/build/three.min.js"></script>
     <script>
         // Fallback if unpkg fails
@@ -18,6 +15,34 @@
             document.head.appendChild(script);
         }
     </script>
+    <!-- Load CSS after Three.js -->
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One:wght@400&family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Critical inline styles to ensure proper rendering on mobile */
+        body {
+            background-color: #000010 !important;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+        #starfield-container {
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            width: 100% !important;
+            height: 100% !important;
+            z-index: -999 !important;
+            overflow: hidden !important;
+            pointer-events: none !important;
+        }
+        .container {
+            position: relative !important;
+            z-index: 1 !important;
+            background: transparent !important;
+        }
+    </style>
 </head>
 <body>
     <!-- Galaxy Background Container -->
@@ -85,8 +110,8 @@
         </footer>
     </div>
     
-    <!-- Load scripts at the end of the body -->
-    <script src="script.js"></script>
+    <!-- Load galaxy background script first, then the main script -->
     <script src="galaxy-background.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>

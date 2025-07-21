@@ -23,8 +23,10 @@
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: -1;
+    z-index: -999; /* Much lower z-index to ensure it's behind everything */
     background: #000010;
+    overflow: hidden;
+    pointer-events: none; /* Allow clicks to pass through */
 }
 
 #starfield-container canvas {
@@ -32,6 +34,9 @@
     width: 100%;
     height: 100%;
     pointer-events: none;
+    position: absolute;
+    top: 0;
+    left: 0;
 }
 
 /* Reset */
@@ -365,17 +370,47 @@ body {
 
 /* Responsive Design */
 @media (max-width: 768px) {
+    /* Force the starfield to be behind everything on mobile */
+    #starfield-container {
+        z-index: -999 !important;
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+    }
+    
+    /* Ensure container is above the starfield */
     .container {
         padding: 15px;
+        position: relative !important;
+        z-index: 10 !important;
+        background: transparent !important;
+    }
+    
+    /* Make profile section transparent but visible */
+    .profile-section {
+        background: rgba(30, 30, 50, 0.7) !important;
+        position: relative !important;
+        z-index: 20 !important;
     }
     
     .trainer-name {
         font-size: 2rem;
+        position: relative !important;
+        z-index: 21 !important;
+    }
+    
+    .trainer-bio {
+        position: relative !important;
+        z-index: 21 !important;
     }
     
     .profile-pic {
         width: 100px;
         height: 100px;
+        position: relative !important;
+        z-index: 21 !important;
     }
     
     .cards-grid {
@@ -386,6 +421,9 @@ body {
     .link-btn {
         padding: 18px 20px;
         font-size: 1rem;
+        position: relative !important;
+        z-index: 20 !important;
+        background: rgba(30, 30, 50, 0.7) !important;
     }
     
     .btn-icon {
@@ -393,9 +431,20 @@ body {
         height: 35px;
         font-size: 1.1rem;
     }
+    
+    /* Ensure tab container is visible */
+    .tab-container {
+        position: relative !important;
+        z-index: 20 !important;
+    }
 }
 
 @media (max-width: 480px) {
+    /* Additional mobile-specific fixes */
+    body {
+        background-color: transparent !important;
+    }
+    
     .trainer-name {
         font-size: 1.8rem;
     }
@@ -415,6 +464,7 @@ body {
     
     .link-btn {
         padding: 15px 18px;
+        background: rgba(30, 30, 50, 0.7) !important;
     }
     
     .btn-icon {
@@ -422,6 +472,13 @@ body {
         height: 30px;
         font-size: 1rem;
         margin-right: 12px;
+    }
+    
+    /* Force cards container to be transparent but visible */
+    .cards-container {
+        background: rgba(30, 30, 50, 0.7) !important;
+        position: relative !important;
+        z-index: 20 !important;
     }
 }
 
