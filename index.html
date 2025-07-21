@@ -4,7 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pokémon Trainer Hub</title>
-    <!-- Load Three.js first -->
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One:wght@400&family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Load Three.js -->
     <script src="https://unpkg.com/three@0.158.0/build/three.min.js"></script>
     <script>
         // Fallback if unpkg fails
@@ -15,15 +18,9 @@
             document.head.appendChild(script);
         }
     </script>
-    <!-- Load galaxy background script before any CSS -->
-    <script src="galaxy-background.js"></script>
-    <!-- Load CSS after galaxy background -->
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One:wght@400&family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <!-- Galaxy Background Container (already created by JS) -->
+    <!-- Galaxy Background Container -->
     <div id="starfield-container"></div>
     
     <!-- Main content container -->
@@ -87,7 +84,9 @@
             <p>Made with <i class="fas fa-heart"></i> for Pokémon Trainers</p>
         </footer>
     </div>
-    <!-- Load main script last -->
+    
+    <!-- Load scripts at the end of the body -->
     <script src="script.js"></script>
+    <script src="galaxy-background.js"></script>
 </body>
 </html>

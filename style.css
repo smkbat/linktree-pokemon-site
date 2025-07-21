@@ -16,26 +16,21 @@
     --glass-border: rgba(255, 255, 255, 0.1);
 }
 
-/* 3D Starfield Background - Styles are now applied inline in JS for better reliability */
+/* 3D Starfield Background */
 #starfield-container {
     position: fixed;
     top: 0;
     left: 0;
-    width: 100vw;
-    height: 100vh;
-    z-index: -2;
-    background: transparent;
-    overflow: hidden;
-    pointer-events: none;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background: #000010;
 }
 
 #starfield-container canvas {
     display: block;
-    width: 100vw;
-    height: 100vh;
-    position: absolute;
-    top: 0;
-    left: 0;
+    width: 100%;
+    height: 100%;
     pointer-events: none;
 }
 
@@ -47,7 +42,7 @@
 }
 
 /* Base styles */
-html {
+html, body {
     height: 100%;
     width: 100%;
     overflow-x: hidden;
@@ -55,13 +50,10 @@ html {
 
 body {
     font-family: 'Quicksand', sans-serif;
-    background: transparent !important; /* Transparent background to show the galaxy */
+    background: transparent;
     color: var(--text-primary);
     min-height: 100vh;
     position: relative;
-    overflow-x: hidden;
-    margin: 0;
-    padding: 0;
 }
 
 /* Main container */
@@ -73,9 +65,8 @@ body {
     display: flex;
     flex-direction: column;
     position: relative;
-    z-index: 10; /* Higher than the background */
-    background: transparent !important; /* Fully transparent */
-    pointer-events: auto; /* Ensure UI elements are clickable */
+    z-index: 1;
+    background: transparent;
 }
 
 /* Profile Section */
@@ -83,14 +74,12 @@ body {
     text-align: center;
     margin-bottom: 30px;
     padding: 30px 20px;
-    background: var(--glass-bg); /* Glass effect */
+    background: var(--glass-bg);
     backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px); /* For Safari */
+    -webkit-backdrop-filter: blur(10px);
     border-radius: 20px;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
     border: 1px solid var(--glass-border);
-    position: relative; /* Ensure proper stacking */
-    z-index: 1; /* Above the galaxy background */
 }
 
 .profile-pic {
@@ -106,8 +95,6 @@ body {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    position: relative;
-    z-index: 1;
 }
 
 .trainer-name {
@@ -136,7 +123,7 @@ body {
     margin-bottom: 20px;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
     backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px); /* For Safari */
+    -webkit-backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
@@ -195,7 +182,7 @@ body {
     display: flex;
     align-items: center;
     padding: 20px 25px;
-    background: var(--glass-bg); /* Glass effect */
+    background: var(--glass-bg);
     border-radius: 15px;
     text-decoration: none;
     color: #fff;
@@ -207,7 +194,7 @@ body {
     border: none;
     overflow: hidden;
     backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px); /* For Safari */
+    -webkit-backdrop-filter: blur(10px);
 }
 
 .link-btn::before {
@@ -266,15 +253,13 @@ body {
 
 /* Cards Container */
 .cards-container {
-    background: var(--glass-bg); /* Glass effect */
+    background: var(--glass-bg);
     border-radius: 20px;
     padding: 25px;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
     backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px); /* For Safari */
+    -webkit-backdrop-filter: blur(10px);
     border: 1px solid var(--glass-border);
-    position: relative;
-    z-index: 1;
 }
 
 .cards-grid {
@@ -284,16 +269,14 @@ body {
 }
 
 .card-item {
-    background: rgba(30, 30, 50, 0.25); /* semi-transparent for galaxy effect */
+    background: rgba(30, 30, 50, 0.25);
     border-radius: 15px;
     overflow: hidden;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
     border: 1px solid rgba(255, 255, 255, 0.15);
     backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px); /* For Safari */
-    position: relative;
-    z-index: 1;
+    -webkit-backdrop-filter: blur(10px);
 }
 
 .card-item:hover {
@@ -364,7 +347,7 @@ body {
     font-size: 0.9rem;
     background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px); /* For Safari */
+    -webkit-backdrop-filter: blur(10px);
     border-radius: 15px;
     border: 1px solid rgba(255, 255, 255, 0.2);
     margin: 20px 0;
@@ -393,11 +376,6 @@ body {
     .profile-pic {
         width: 100px;
         height: 100px;
-    }
-    
-    .profile-pic::before {
-        width: 25px;
-        height: 25px;
     }
     
     .cards-grid {
