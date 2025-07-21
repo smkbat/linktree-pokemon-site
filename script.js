@@ -10,15 +10,26 @@ class Starfield {
         this.shootingStars = [];
         this.mouseX = 0;
         this.mouseY = 0;
-        this.starCount = 20000;
-        this.twinkleSpeed = 1.0;
-        this.shootingStarFrequency = 3.0;
-        this.mouseSensitivity = 0.5;
+        
+        // Mobile detection and optimization
+        this.isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth <= 768;
+        
+        // Adjust settings for mobile
+        this.starCount = this.isMobile ? 8000 : 20000;
+        this.twinkleSpeed = this.isMobile ? 0.5 : 1.0;
+        this.shootingStarFrequency = this.isMobile ? 5.0 : 3.0;
+        this.mouseSensitivity = this.isMobile ? 0.3 : 0.5;
         this.starColor = 0xffffff;
         this.lastShootingStarTime = 0;
         this.clock = new THREE.Clock();
         this.fpsCounter = 0;
         this.lastFpsUpdate = 0;
+        
+        console.log('Starfield initialized:', {
+            isMobile: this.isMobile,
+            starCount: this.starCount,
+            twinkleSpeed: this.twinkleSpeed
+        });
         
         this.init();
         this.animate();
@@ -39,12 +50,22 @@ class Starfield {
         
         // Renderer setup
         this.renderer = new THREE.WebGLRenderer({ 
-            antialias: true,
-            alpha: true 
+            antialias: !this.isMobile, // Disable antialiasing on mobile for performance
+            alpha: true,
+            powerPreference: "high-performance"
         });
         this.renderer.setSize(window.innerWidth, window.innerHeight);
         this.renderer.setClearColor(0x000000, 0);
-        document.getElementById('starfield-container').appendChild(this.renderer.domElement);
+        
+        // Add error handling for WebGL support
+        try {
+            document.getElementById('starfield-container').appendChild(this.renderer.domElement);
+            console.log('WebGL renderer created successfully');
+        } catch (error) {
+            console.error('Failed to create WebGL renderer:', error);
+            this.createFallbackBackground();
+            return;
+        }
         
         // Create stars
         this.createStars();
@@ -57,14 +78,41 @@ class Starfield {
         
         // Touch event listeners for mobile
         document.addEventListener('touchmove', (event) => {
-            event.preventDefault();
-            const touch = event.touches[0];
-            this.mouseX = (touch.clientX / window.innerWidth) * 2 - 1;
-            this.mouseY = -(touch.clientY / window.innerHeight) * 2 + 1;
+            if (this.isMobile) {
+                event.preventDefault();
+                const touch = event.touches[0];
+                this.mouseX = (touch.clientX / window.innerWidth) * 2 - 1;
+                this.mouseY = -(touch.clientY / window.innerHeight) * 2 + 1;
+            }
+        });
+        
+        // Add touchstart for mobile
+        document.addEventListener('touchstart', (event) => {
+            if (this.isMobile) {
+                const touch = event.touches[0];
+                this.mouseX = (touch.clientX / window.innerWidth) * 2 - 1;
+                this.mouseY = -(touch.clientY / window.innerHeight) * 2 + 1;
+            }
         });
         
         // Window resize
         window.addEventListener('resize', () => this.onWindowResize());
+    }
+
+    createFallbackBackground() {
+        console.log('Creating fallback background for devices without WebGL support');
+        const container = document.getElementById('starfield-container');
+        if (container) {
+            container.style.background = 'linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%)';
+            container.innerHTML = `
+                <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden;">
+                    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white; text-align: center; opacity: 0.3;">
+                        <div style="font-size: 2rem; margin-bottom: 1rem;">⭐</div>
+                        <div style="font-size: 0.9rem;">Pokémon Trainer Hub</div>
+                    </div>
+                </div>
+            `;
+        }
     }
 
     createStars() {
@@ -419,10 +467,26 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     
     // Initialize 3D Starfield
     try {
+        // Check if Three.js is loaded
+        if (typeof THREE === 'undefined') {
+            console.error('Three.js not loaded');
+            // Create fallback background
+            const container = document.getElementById('starfield-container');
+            if (container) {
+                container.style.background = 'linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%)';
+            }
+            return;
+        }
+        
         starfield = new Starfield();
         console.log('3D Starfield initialized successfully');
     } catch (error) {
         console.error('Failed to initialize 3D Starfield:', error);
+        // Create fallback background on error
+        const container = document.getElementById('starfield-container');
+        if (container) {
+            container.style.background = 'linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%)';
+        }
     }
 });
 
