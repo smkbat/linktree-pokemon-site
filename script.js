@@ -128,6 +128,8 @@ class Starfield {
         const colors = [];
         const sizes = [];
         const opacities = [];
+        const twinklePhases = [];
+        const starTypes = [];
         
         for (let i = 0; i < this.starCount; i++) {
             // Random position in 3D space
@@ -137,78 +139,148 @@ class Starfield {
             
             positions.push(x, y, z);
             
-            // Color variation (some stars slightly blue/yellow)
+            // Enhanced color variation with more realistic star colors
             const colorVariation = Math.random();
             let r, g, b;
+            let starType = 0; // 0=white, 1=blue, 2=yellow, 3=red
             
-            if (colorVariation < 0.8) {
-                // White stars
+            if (colorVariation < 0.75) {
+                // White stars (75%)
                 r = g = b = 1.0;
-            } else if (colorVariation < 0.9) {
-                // Slightly blue stars
-                r = g = 0.8;
-                b = 1.0;
+                starType = 0;
+            } else if (colorVariation < 0.85) {
+                // Blue stars (10%)
+                r = 0.7; g = 0.8; b = 1.0;
+                starType = 1;
+            } else if (colorVariation < 0.95) {
+                // Yellow stars (10%)
+                r = 1.0; g = 1.0; b = 0.7;
+                starType = 2;
             } else {
-                // Slightly yellow stars
-                r = g = 1.0;
-                b = 0.8;
+                // Red stars (5%)
+                r = 1.0; g = 0.7; b = 0.7;
+                starType = 3;
             }
             
             colors.push(r, g, b);
             
-            // Random size (0.5 to 2.0)
-            const size = Math.random() * 1.5 + 0.5;
+            // Size with distance falloff (stars further away are smaller)
+            const distance = Math.sqrt(x*x + y*y + z*z);
+            const baseSize = Math.random() * 2.0 + 0.5;
+            const distanceFalloff = Math.max(0.3, 1.0 - distance / 1000);
+            const size = baseSize * distanceFalloff;
             sizes.push(size);
             
             // Random initial opacity
-            opacities.push(Math.random());
+            opacities.push(Math.random() * 0.5 + 0.5);
+            
+            // Random twinkling phase for each star
+            twinklePhases.push(Math.random() * Math.PI * 2);
+            
+            // Star type for shader
+            starTypes.push(starType);
         }
         
         starGeometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
         starGeometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
         starGeometry.setAttribute('size', new THREE.Float32BufferAttribute(sizes, 1));
         starGeometry.setAttribute('opacity', new THREE.Float32BufferAttribute(opacities, 1));
+        starGeometry.setAttribute('twinklePhase', new THREE.Float32BufferAttribute(twinklePhases, 1));
+        starGeometry.setAttribute('starType', new THREE.Float32BufferAttribute(starTypes, 1));
         
-        // Create shader material for twinkling effect
+        // Create custom shader material for realistic star rendering
         const starMaterial = new THREE.ShaderMaterial({
             uniforms: {
                 time: { value: 0 },
-                twinkleSpeed: { value: this.twinkleSpeed }
+                twinkleSpeed: { value: this.twinkleSpeed },
+                pixelRatio: { value: window.devicePixelRatio || 1 }
             },
             vertexShader: `
                 attribute float size;
                 attribute float opacity;
+                attribute float twinklePhase;
+                attribute float starType;
                 varying float vOpacity;
                 varying vec3 vColor;
+                varying float vTwinklePhase;
+                varying float vStarType;
+                varying float vDistance;
                 
                 void main() {
                     vOpacity = opacity;
                     vColor = color;
+                    vTwinklePhase = twinklePhase;
+                    vStarType = starType;
+                    
                     vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
-                    gl_PointSize = size * (300.0 / -mvPosition.z);
+                    vDistance = length(mvPosition.xyz);
+                    
+                    // Size attenuation with distance
+                    float pointSize = size * (300.0 / -mvPosition.z);
+                    
+                    // Ensure minimum size for visibility
+                    pointSize = max(pointSize, 1.0);
+                    
+                    gl_PointSize = pointSize;
                     gl_Position = projectionMatrix * mvPosition;
                 }
             `,
             fragmentShader: `
                 uniform float time;
                 uniform float twinkleSpeed;
+                uniform float pixelRatio;
                 varying float vOpacity;
                 varying vec3 vColor;
+                varying float vTwinklePhase;
+                varying float vStarType;
+                varying float vDistance;
                 
                 void main() {
-                    float twinkle = sin(time * twinkleSpeed + gl_PointCoord.x * 10.0) * 0.5 + 0.5;
-                    float alpha = vOpacity * twinkle;
+                    // Calculate distance from center of point
+                    vec2 center = vec2(0.5, 0.5);
+                    float dist = length(gl_PointCoord - center);
                     
-                    if (length(gl_PointCoord - vec2(0.5)) > 0.5) {
+                    // Create smooth circular star shape
+                    float alpha = 1.0 - smoothstep(0.0, 0.5, dist);
+                    
+                    // Add star spikes for different star types
+                    float spikes = 0.0;
+                    if (vStarType > 0.5) {
+                        // Create star spikes
+                        float angle = atan(gl_PointCoord.y - 0.5, gl_PointCoord.x - 0.5);
+                        float spike = sin(angle * 4.0) * 0.1;
+                        spikes = max(0.0, spike);
+                    }
+                    
+                    // Twinkling effect with individual phase
+                    float twinkle = sin(time * twinkleSpeed + vTwinklePhase) * 0.3 + 0.7;
+                    twinkle += sin(time * twinkleSpeed * 0.5 + vTwinklePhase * 2.0) * 0.2;
+                    
+                    // Add subtle pulsing
+                    float pulse = sin(time * 0.5 + vTwinklePhase) * 0.1 + 0.9;
+                    
+                    // Combine effects
+                    float finalAlpha = alpha * vOpacity * twinkle * pulse + spikes;
+                    
+                    // Add glow effect
+                    float glow = 1.0 - smoothstep(0.0, 0.8, dist);
+                    glow *= 0.3;
+                    
+                    // Final color with glow
+                    vec3 finalColor = vColor + glow * vColor;
+                    
+                    // Discard transparent pixels
+                    if (finalAlpha < 0.01) {
                         discard;
                     }
                     
-                    gl_FragColor = vec4(vColor, alpha);
+                    gl_FragColor = vec4(finalColor, finalAlpha);
                 }
             `,
             transparent: true,
             blending: THREE.AdditiveBlending,
-            depthWrite: false
+            depthWrite: false,
+            depthTest: true
         });
         
         const starSystem = new THREE.Points(starGeometry, starMaterial);
@@ -221,19 +293,58 @@ class Starfield {
         const startY = (Math.random() - 0.5) * 1000;
         const startZ = (Math.random() - 0.5) * 1000;
         
-        const endX = startX + (Math.random() - 0.5) * 200;
-        const endY = startY + (Math.random() - 0.5) * 200;
-        const endZ = startZ + (Math.random() - 0.5) * 200;
+        // Create longer, more dramatic trails
+        const length = Math.random() * 300 + 200;
+        const angle = Math.random() * Math.PI * 2;
+        const endX = startX + Math.cos(angle) * length;
+        const endY = startY + Math.sin(angle) * length;
+        const endZ = startZ + (Math.random() - 0.5) * 100;
         
-        const geometry = new THREE.BufferGeometry().setFromPoints([
-            new THREE.Vector3(startX, startY, startZ),
-            new THREE.Vector3(endX, endY, endZ)
-        ]);
+        // Create multiple points for a smoother trail
+        const points = [];
+        const segments = 20;
+        for (let i = 0; i <= segments; i++) {
+            const t = i / segments;
+            const x = startX + (endX - startX) * t;
+            const y = startY + (endY - startY) * t;
+            const z = startZ + (endZ - startZ) * t;
+            points.push(new THREE.Vector3(x, y, z));
+        }
         
-        const material = new THREE.LineBasicMaterial({
-            color: 0xffffff,
+        const geometry = new THREE.BufferGeometry().setFromPoints(points);
+        
+        // Create gradient material for the trail
+        const material = new THREE.ShaderMaterial({
+            uniforms: {
+                time: { value: 0 }
+            },
+            vertexShader: `
+                varying float vDistance;
+                void main() {
+                    vDistance = position.z;
+                    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+                }
+            `,
+            fragmentShader: `
+                uniform float time;
+                varying float vDistance;
+                void main() {
+                    // Create gradient trail effect
+                    float alpha = 1.0 - vDistance;
+                    alpha = smoothstep(0.0, 1.0, alpha);
+                    
+                    // Add twinkling to the trail
+                    float twinkle = sin(time * 10.0 + vDistance * 10.0) * 0.3 + 0.7;
+                    
+                    // White to blue gradient
+                    vec3 color = mix(vec3(1.0, 1.0, 1.0), vec3(0.5, 0.8, 1.0), vDistance);
+                    
+                    gl_FragColor = vec4(color, alpha * twinkle);
+                }
+            `,
             transparent: true,
-            opacity: 1.0
+            blending: THREE.AdditiveBlending,
+            depthWrite: false
         });
         
         const line = new THREE.Line(geometry, material);
@@ -242,7 +353,9 @@ class Starfield {
         const shootingStar = {
             line: line,
             opacity: 1.0,
-            fadeSpeed: 0.02
+            fadeSpeed: 0.015,
+            material: material,
+            startTime: this.clock.getElapsedTime()
         };
         
         this.shootingStars.push(shootingStar);
@@ -254,7 +367,7 @@ class Starfield {
             if (index > -1) {
                 this.shootingStars.splice(index, 1);
             }
-        }, 2000);
+        }, 3000);
     }
 
     onWindowResize() {
@@ -278,6 +391,11 @@ class Starfield {
         this.shootingStars.forEach(shootingStar => {
             shootingStar.opacity -= shootingStar.fadeSpeed;
             shootingStar.line.material.opacity = shootingStar.opacity;
+            
+            // Update shader time for trail effects
+            if (shootingStar.material && shootingStar.material.uniforms) {
+                shootingStar.material.uniforms.time.value = time;
+            }
         });
         
         // Create new shooting stars
