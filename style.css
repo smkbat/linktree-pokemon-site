@@ -689,9 +689,11 @@ body {
     position: fixed !important;
     top: 24px;
     left: 50%;
-    transform: translateX(-50%);
+    transform: translate(-50%, 0);
     width: 90vw;
     max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
     z-index: 100;
 }
 
@@ -703,8 +705,12 @@ body {
 @media (max-width: 600px) {
   .profile-section {
     top: 12px;
+    left: 50%;
+    transform: translate(-50%, 0);
     width: 98vw;
     max-width: 98vw;
+    margin-left: auto;
+    margin-right: auto;
     padding: 16px 4vw;
   }
   .container {
