@@ -2,18 +2,21 @@
 :root {
     --primary-bg: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     --secondary-bg: rgba(255, 255, 255, 0.95);
-    --text-primary: #2d3748;
-    --text-secondary: #4a5568;
+    --text-primary: #ffffff;
+    --text-secondary: rgba(255, 255, 255, 0.8);
     --accent-color: #e53e3e;
     --accent-hover: #c53030;
-    --border-color: #e2e8f0;
+    --border-color: rgba(255, 255, 255, 0.1);
     --shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
     --shadow-hover: 0 15px 35px rgba(0, 0, 0, 0.15);
     --pokeball-red: #e53e3e;
     --pokeball-white: #ffffff;
     --pokeball-black: #2d3748;
-    --glass-bg: rgba(30, 30, 50, 0.65);
+    --glass-bg: rgba(30, 30, 50, 0.35);
     --glass-border: rgba(255, 255, 255, 0.1);
+    --glass-highlight: rgba(255, 255, 255, 0.05);
+    --glass-shadow: rgba(0, 0, 0, 0.2);
+    --glass-blur: 15px;
 }
 
 /* 3D Starfield Background */
@@ -79,12 +82,24 @@ body {
     text-align: center;
     margin-bottom: 30px;
     padding: 30px 20px;
-    background: var(--glass-bg);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    background: rgba(30, 30, 50, 0.25);
+    backdrop-filter: blur(var(--glass-blur));
+    -webkit-backdrop-filter: blur(var(--glass-blur));
     border-radius: 20px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
     border: 1px solid var(--glass-border);
+    position: relative;
+    overflow: hidden;
+}
+
+.profile-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
 }
 
 .profile-pic {
@@ -122,14 +137,26 @@ body {
 /* Tab Container */
 .tab-container {
     display: flex;
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(30, 30, 50, 0.25);
     border-radius: 15px;
     padding: 5px;
     margin-bottom: 20px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(var(--glass-blur));
+    -webkit-backdrop-filter: blur(var(--glass-blur));
+    border: 1px solid var(--glass-border);
+    position: relative;
+    overflow: hidden;
+}
+
+.tab-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
 }
 
 .tab-btn {
@@ -187,19 +214,19 @@ body {
     display: flex;
     align-items: center;
     padding: 20px 25px;
-    background: var(--glass-bg);
+    background: rgba(30, 30, 50, 0.25);
     border-radius: 15px;
     text-decoration: none;
     color: #fff;
     font-weight: 600;
     font-size: 1.1rem;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
     transition: all 0.3s ease;
     position: relative;
-    border: none;
+    border: 1px solid var(--glass-border);
     overflow: hidden;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(var(--glass-blur));
+    -webkit-backdrop-filter: blur(var(--glass-blur));
 }
 
 .link-btn::before {
@@ -258,13 +285,25 @@ body {
 
 /* Cards Container */
 .cards-container {
-    background: var(--glass-bg);
+    background: rgba(30, 30, 50, 0.25);
     border-radius: 20px;
     padding: 25px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(var(--glass-blur));
+    -webkit-backdrop-filter: blur(var(--glass-blur));
     border: 1px solid var(--glass-border);
+    position: relative;
+    overflow: hidden;
+}
+
+.cards-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
 }
 
 .cards-grid {
@@ -277,11 +316,23 @@ body {
     background: rgba(30, 30, 50, 0.25);
     border-radius: 15px;
     overflow: hidden;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
     transition: all 0.3s ease;
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(var(--glass-blur));
+    -webkit-backdrop-filter: blur(var(--glass-blur));
+    position: relative;
+}
+
+.card-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    z-index: 1;
 }
 
 .card-item:hover {
@@ -350,12 +401,24 @@ body {
     padding: 30px 0;
     color: rgba(255, 255, 255, 0.8);
     font-size: 0.9rem;
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    background: rgba(30, 30, 50, 0.25);
+    backdrop-filter: blur(var(--glass-blur));
+    -webkit-backdrop-filter: blur(var(--glass-blur));
     border-radius: 15px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    border: 1px solid var(--glass-border);
     margin: 20px 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.footer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
 }
 
 .footer i {
