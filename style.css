@@ -784,5 +784,16 @@ body {
 }
 
 .container {
-    margin-top: 40px !important;
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+}
+
+/* --- REMOVE EXTRA SPACE ABOVE PROFILE SECTION --- */
+.profile-section {
+    margin-top: 0 !important;
+    padding-top: 30px !important;
+}
+.container {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
 }
