@@ -593,7 +593,7 @@ body {
 .cashapp-btn .btn-icon,
 .paypal-btn .btn-icon,
 .instagram-btn .btn-icon {
-    background: rgba(30, 30, 50, 0.18) !important;
+    background: rgba(30, 30, 50, 0.08) !important;
     backdrop-filter: blur(24px) !important;
     -webkit-backdrop-filter: blur(24px) !important;
     border: 1px solid rgba(255,255,255,0.1) !important;
@@ -636,7 +636,7 @@ body {
   .cashapp-btn .btn-icon,
   .paypal-btn .btn-icon,
   .instagram-btn .btn-icon {
-    background: rgba(30, 30, 50, 0.18) !important;
+    background: rgba(30, 30, 50, 0.08) !important;
     backdrop-filter: blur(24px) !important;
     -webkit-backdrop-filter: blur(24px) !important;
     border: 1px solid rgba(255,255,255,0.1) !important;
