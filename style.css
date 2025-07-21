@@ -654,13 +654,13 @@ body {
 .cards-container,
 .card-item,
 .footer {
-    background: rgba(30, 30, 50, 0.04) !important;
+    background: rgba(80, 40, 120, 0.08) !important;
     border: 1px solid rgba(255,255,255,0.1) !important;
     box-shadow: none !important;
     color: var(--text-primary) !important;
     text-shadow: none !important;
-    backdrop-filter: blur(2px) !important;
-    -webkit-backdrop-filter: blur(2px) !important;
+    backdrop-filter: blur(1px) !important;
+    -webkit-backdrop-filter: blur(1px) !important;
 }
 
 @media (max-width: 900px) {
@@ -675,12 +675,12 @@ body {
   .cards-container,
   .card-item,
   .footer {
-    background: rgba(30, 30, 50, 0.04) !important;
+    background: rgba(80, 40, 120, 0.08) !important;
     border: 1px solid rgba(255,255,255,0.1) !important;
     box-shadow: none !important;
     color: var(--text-primary) !important;
     text-shadow: none !important;
-    backdrop-filter: blur(4px) !important;
-    -webkit-backdrop-filter: blur(4px) !important;
+    backdrop-filter: blur(1px) !important;
+    -webkit-backdrop-filter: blur(1px) !important;
   }
 }
