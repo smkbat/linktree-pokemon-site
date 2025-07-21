@@ -821,3 +821,10 @@ body {
     vertical-align: initial !important;
     display: inline-block;
 }
+
+.profile-pic {
+    margin-bottom: 8px !important;
+}
+.trainer-name {
+    margin-top: 0 !important;
+}
