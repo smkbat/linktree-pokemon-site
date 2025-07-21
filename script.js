@@ -1,6 +1,8 @@
 console.log("Script file loaded - Version 20241220");
 console.log("User Agent:", navigator.userAgent);
 console.log("Screen size:", window.innerWidth, "x", window.innerHeight);
+console.log("Three.js available:", typeof THREE !== 'undefined');
+console.log("WebGL supported:", !!document.createElement('canvas').getContext('webgl'));
 
 // 3D Starfield Class
 class Starfield {
