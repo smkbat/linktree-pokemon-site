@@ -65,13 +65,32 @@ window.addEventListener('DOMContentLoaded', function() {
   geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
   geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
 
+  // Create a circular texture for high-quality stars
+  function createCircleTexture(size = 64) {
+      const canvas = document.createElement('canvas');
+      canvas.width = canvas.height = size;
+      const ctx = canvas.getContext('2d');
+      ctx.clearRect(0, 0, size, size);
+      ctx.beginPath();
+      ctx.arc(size / 2, size / 2, size / 2 - 1, 0, 2 * Math.PI);
+      ctx.closePath();
+      ctx.fillStyle = 'white';
+      ctx.shadowColor = 'white';
+      ctx.shadowBlur = size / 6;
+      ctx.fill();
+      return new THREE.CanvasTexture(canvas);
+  }
+
   const material = new THREE.PointsMaterial({
-    size: 2.5,
+    size: 2.2,
     vertexColors: true,
     transparent: true,
-    opacity: 0.9,
+    opacity: 0.85,
     blending: THREE.AdditiveBlending,
-    depthWrite: false
+    depthWrite: false,
+    sizeAttenuation: true,
+    map: createCircleTexture(64),
+    alphaTest: 0.01
   });
 
   const stars = new THREE.Points(geometry, material);
