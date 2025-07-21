@@ -104,9 +104,9 @@ body {
 }
 
 .profile-pic {
-    width: 180px !important;
-    height: 180px !important;
-    margin: 0 auto 20px auto;
+    width: 320px !important;
+    height: 320px !important;
+    margin: 0 auto 8px auto;
     border-radius: 50%;
     overflow: hidden;
     position: relative;
@@ -827,4 +827,11 @@ body {
 }
 .trainer-name {
     margin-top: 0 !important;
+}
+
+@media (max-width: 600px) {
+  .profile-pic {
+    width: 220px !important;
+    height: 220px !important;
+  }
 }
