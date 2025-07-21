@@ -1,73 +1,74 @@
-import * as THREE from 'three';
-import { WebGPURenderer } from 'three/webgpu';
-import * as Nodes from 'three/tsl';
+// WebGL Starfield/Galaxy Background for maximum compatibility
+// Uses global THREE (already loaded in index.html)
 
-// Container for the background
-const container = document.getElementById('starfield-container');
+(function() {
+  const container = document.getElementById('starfield-container');
+  let width = window.innerWidth;
+  let height = window.innerHeight;
 
-// Scene setup
-const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-camera.position.z = 1.5;
+  // Scene setup
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(75, width / height, 1, 2000);
+  camera.position.z = 1000;
 
-// WebGPU Renderer
-const renderer = new WebGPURenderer({ antialias: true });
-renderer.setSize(window.innerWidth, window.innerHeight);
-renderer.setClearColor(0x000010, 1);
-container.appendChild(renderer.domElement);
-
-// Galaxy shader using TSL (Three.js Shading Language)
-// This is a simplified version for demo purposes
-const vertexShader = /* glsl */`
-  varying vec2 vUv;
-  void main() {
-    vUv = uv;
-    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-  }
-`;
-
-const fragmentShader = /* glsl */`
-  varying vec2 vUv;
-  uniform float uTime;
-  void main() {
-    float star = smoothstep(0.995, 1.0, fract(sin(dot(vUv * 1000.0, vec2(12.9898,78.233))) * 43758.5453));
-    float glow = 0.02 / length(vUv - 0.5);
-    float galaxy = pow(glow, 1.5) * 0.6;
-    float twinkle = 0.5 + 0.5 * sin(uTime + vUv.x * 40.0 + vUv.y * 40.0);
-    gl_FragColor = vec4(vec3(star * twinkle + galaxy), 1.0);
-  }
-`;
-
-const uniforms = {
-  uTime: { value: 0 }
-};
-
-const material = new THREE.ShaderMaterial({
-  vertexShader,
-  fragmentShader,
-  uniforms,
-  depthWrite: false,
-  depthTest: false
-});
-
-const geometry = new THREE.PlaneGeometry(2, 2);
-const mesh = new THREE.Mesh(geometry, material);
-scene.add(mesh);
-
-// Animation loop
-function animate(time) {
-  uniforms.uTime.value = time * 0.001;
-  renderer.render(scene, camera);
-  requestAnimationFrame(animate);
-}
-
-animate();
-
-// Responsive resize
-window.addEventListener('resize', () => {
-  const width = window.innerWidth;
-  const height = window.innerHeight;
-  camera.aspect = width / height;
-  camera.updateProjectionMatrix();
+  // Renderer
+  const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
   renderer.setSize(width, height);
-}); 
+  renderer.setClearColor(0x000010, 1);
+  container.appendChild(renderer.domElement);
+
+  // Starfield parameters
+  const starCount = 1200;
+  const geometry = new THREE.BufferGeometry();
+  const positions = [];
+  const colors = [];
+  const color = new THREE.Color();
+
+  for (let i = 0; i < starCount; i++) {
+    // Random position in a sphere
+    const r = 900 * Math.pow(Math.random(), 0.7);
+    const theta = Math.random() * 2 * Math.PI;
+    const phi = Math.acos(2 * Math.random() - 1);
+    const x = r * Math.sin(phi) * Math.cos(theta);
+    const y = r * Math.sin(phi) * Math.sin(theta);
+    const z = r * Math.cos(phi);
+    positions.push(x, y, z);
+    // Color: mostly white, some blue/purple
+    color.setHSL(0.6 + 0.2 * Math.random(), 0.7, 0.7 + 0.3 * Math.random());
+    colors.push(color.r, color.g, color.b);
+  }
+
+  geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+  geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+
+  const material = new THREE.PointsMaterial({
+    size: 2.2,
+    vertexColors: true,
+    transparent: true,
+    opacity: 0.85,
+    blending: THREE.AdditiveBlending,
+    depthWrite: false
+  });
+
+  const stars = new THREE.Points(geometry, material);
+  scene.add(stars);
+
+  // Animation loop
+  function animate() {
+    // Rotate the starfield slowly for a galaxy effect
+    stars.rotation.y += 0.0007;
+    stars.rotation.x += 0.0002;
+    renderer.render(scene, camera);
+    requestAnimationFrame(animate);
+  }
+  animate();
+
+  // Responsive resize
+  window.addEventListener('resize', () => {
+    width = window.innerWidth;
+    height = window.innerHeight;
+    camera.aspect = width / height;
+    camera.updateProjectionMatrix();
+    renderer.setSize(width, height);
+  });
+})(); 
