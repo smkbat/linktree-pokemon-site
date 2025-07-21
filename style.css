@@ -12,39 +12,49 @@
     --pokeball-red: #e53e3e;
     --pokeball-white: #ffffff;
     --pokeball-black: #2d3748;
+    --glass-bg: rgba(30, 30, 50, 0.65);
+    --glass-border: rgba(255, 255, 255, 0.1);
 }
 
-/* 3D Starfield Background */
+/* 3D Starfield Background - Styles are now applied inline in JS for better reliability */
 #starfield-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -999; /* Far behind everything */
-    background: transparent;
-    overflow: hidden;
-    pointer-events: none; /* Allow clicks to pass through */
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    z-index: -9999 !important; /* Far behind everything */
+    background: transparent !important;
+    overflow: hidden !important;
+    pointer-events: none !important; /* Allow clicks to pass through */
 }
 
-
+/* Reset */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
+/* Base styles */
+html {
+    height: 100%;
+    width: 100%;
+    overflow-x: hidden;
+}
+
 body {
     font-family: 'Quicksand', sans-serif;
-    background: transparent; /* Transparent background to show the galaxy */
+    background: transparent !important; /* Transparent background to show the galaxy */
     color: var(--text-primary);
     min-height: 100vh;
     position: relative;
     overflow-x: hidden;
+    margin: 0;
+    padding: 0;
 }
 
-/* We're removing the Pokémon background pattern to let the galaxy background shine through */
-
+/* Main container */
 .container {
     max-width: 600px;
     margin: 0 auto;
@@ -54,7 +64,7 @@ body {
     flex-direction: column;
     position: relative;
     z-index: 10; /* Higher than the background */
-    background: transparent; /* Fully transparent */
+    background: transparent !important; /* Fully transparent */
     pointer-events: auto; /* Ensure UI elements are clickable */
 }
 
@@ -63,11 +73,12 @@ body {
     text-align: center;
     margin-bottom: 30px;
     padding: 30px 20px;
-    background: rgba(30, 30, 50, 0.65); /* Increased opacity for better visibility */
+    background: var(--glass-bg); /* Glass effect */
     backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px); /* For Safari */
     border-radius: 20px;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid var(--glass-border);
     position: relative; /* Ensure proper stacking */
     z-index: 1; /* Above the galaxy background */
 }
@@ -115,6 +126,7 @@ body {
     margin-bottom: 20px;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
     backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px); /* For Safari */
     border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
@@ -147,8 +159,6 @@ body {
     color: var(--pokeball-red);
 }
 
-
-
 /* Tab Content */
 .tab-content {
     display: none;
@@ -175,7 +185,7 @@ body {
     display: flex;
     align-items: center;
     padding: 20px 25px;
-    background: rgba(30, 30, 50, 0.55); /* semi-transparent for galaxy effect */
+    background: var(--glass-bg); /* Glass effect */
     border-radius: 15px;
     text-decoration: none;
     color: #fff;
@@ -186,6 +196,8 @@ body {
     position: relative;
     border: none;
     overflow: hidden;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px); /* For Safari */
 }
 
 .link-btn::before {
@@ -244,12 +256,13 @@ body {
 
 /* Cards Container */
 .cards-container {
-    background: rgba(30, 30, 50, 0.35); /* semi-transparent for galaxy effect */
+    background: var(--glass-bg); /* Glass effect */
     border-radius: 20px;
     padding: 25px;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
     backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    -webkit-backdrop-filter: blur(10px); /* For Safari */
+    border: 1px solid var(--glass-border);
     position: relative;
     z-index: 1;
 }
@@ -268,6 +281,7 @@ body {
     transition: all 0.3s ease;
     border: 1px solid rgba(255, 255, 255, 0.15);
     backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px); /* For Safari */
     position: relative;
     z-index: 1;
 }
@@ -340,6 +354,7 @@ body {
     font-size: 0.9rem;
     background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px); /* For Safari */
     border-radius: 15px;
     border: 1px solid rgba(255, 255, 255, 0.2);
     margin: 20px 0;
@@ -443,4 +458,4 @@ body {
 
 @keyframes spin {
     to { transform: rotate(360deg); }
-} 
+}
