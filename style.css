@@ -78,6 +78,7 @@ body::before {
     flex-direction: column;
     position: relative;
     z-index: 1;
+    background: transparent;
 }
 
 /* Profile Section */
@@ -85,11 +86,11 @@ body::before {
     text-align: center;
     margin-bottom: 30px;
     padding: 30px 20px;
-    background: rgba(255, 255, 255, 0.95);
+    background: rgba(30, 30, 50, 0.35); /* subtle dark glass effect, not white */
     backdrop-filter: blur(10px);
     border-radius: 20px;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .profile-pic {
@@ -195,17 +196,16 @@ body::before {
     display: flex;
     align-items: center;
     padding: 20px 25px;
-    background: rgba(255, 255, 255, 0.95);
+    background: rgba(30, 30, 50, 0.55); /* semi-transparent for galaxy effect */
     border-radius: 15px;
     text-decoration: none;
-    color: var(--text-primary);
+    color: #fff;
     font-weight: 600;
     font-size: 1.1rem;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(10px);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
     transition: all 0.3s ease;
     position: relative;
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    border: none;
     overflow: hidden;
 }
 
