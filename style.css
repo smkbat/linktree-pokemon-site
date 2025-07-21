@@ -808,3 +808,16 @@ body {
     margin: 24px 0 0 0 !important;
     padding: 12px 0 0 0 !important;
 }
+
+.link-btn {
+    display: flex;
+    align-items: center;
+}
+.btn-logo {
+    width: 32px !important;
+    height: 32px !important;
+    object-fit: contain;
+    margin-right: 12px !important;
+    vertical-align: initial !important;
+    display: inline-block;
+}
