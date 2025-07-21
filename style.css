@@ -14,6 +14,21 @@
     --pokeball-black: #2d3748;
 }
 
+/* 3D Starfield Background */
+#starfield-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -2;
+    background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+}
+
+#starfield-container canvas {
+    display: block;
+}
+
 
 
 * {
@@ -24,8 +39,7 @@
 
 body {
     font-family: 'Quicksand', sans-serif;
-    background: var(--primary-bg);
-    background-attachment: fixed;
+    background: transparent;
     color: var(--text-primary);
     min-height: 100vh;
     position: relative;
@@ -55,6 +69,8 @@ body::before {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    position: relative;
+    z-index: 1;
 }
 
 /* Profile Section */
@@ -62,8 +78,11 @@ body::before {
     text-align: center;
     margin-bottom: 30px;
     padding: 30px 20px;
-    background: #edfdfd;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
     border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .profile-pic {
@@ -103,12 +122,13 @@ body::before {
 /* Tab Container */
 .tab-container {
     display: flex;
-    background: var(--secondary-bg);
+    background: rgba(255, 255, 255, 0.1);
     border-radius: 15px;
     padding: 5px;
     margin-bottom: 20px;
-    box-shadow: var(--shadow);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
     backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .tab-btn {
@@ -168,16 +188,17 @@ body::before {
     display: flex;
     align-items: center;
     padding: 20px 25px;
-    background: var(--secondary-bg);
+    background: rgba(255, 255, 255, 0.95);
     border-radius: 15px;
     text-decoration: none;
     color: var(--text-primary);
     font-weight: 600;
     font-size: 1.1rem;
-    box-shadow: var(--shadow);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
     backdrop-filter: blur(10px);
     transition: all 0.3s ease;
     position: relative;
+    border: 1px solid rgba(255, 255, 255, 0.2);
     overflow: hidden;
 }
 
@@ -237,11 +258,12 @@ body::before {
 
 /* Cards Container */
 .cards-container {
-    background: var(--secondary-bg);
+    background: rgba(255, 255, 255, 0.95);
     border-radius: 20px;
     padding: 25px;
-    box-shadow: var(--shadow);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
     backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .cards-grid {
@@ -251,12 +273,13 @@ body::before {
 }
 
 .card-item {
-    background: var(--secondary-bg);
+    background: rgba(255, 255, 255, 0.9);
     border-radius: 15px;
     overflow: hidden;
-    box-shadow: var(--shadow);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
-    border: 2px solid transparent;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(10px);
 }
 
 .card-item:hover {
@@ -323,8 +346,13 @@ body::before {
     text-align: center;
     margin-top: auto;
     padding: 30px 0;
-    color: var(--text-secondary);
+    color: rgba(255, 255, 255, 0.8);
     font-size: 0.9rem;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    margin: 20px 0;
 }
 
 .footer i {

@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Starfield Background</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #000;
+            overflow: hidden;
+            color: white;
+        }
+
+        #starfield-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .controls {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            z-index: 1000;
+            min-width: 250px;
+        }
+
+        .control-group {
+            margin-bottom: 15px;
+        }
+
+        .control-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 14px;
+            color: #ccc;
+        }
+
+        .control-group input[type="range"] {
+            width: 100%;
+            margin-bottom: 5px;
+        }
+
+        .control-group input[type="color"] {
+            width: 50px;
+            height: 30px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .preset-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .preset-btn {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .preset-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .preset-btn.active {
+            box-shadow: 0 0 10px currentColor;
+        }
+
+        .info {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 15px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            z-index: 1000;
+            max-width: 300px;
+        }
+
+        .info h3 {
+            margin-bottom: 10px;
+            color: #fff;
+        }
+
+        .info p {
+            font-size: 12px;
+            color: #ccc;
+            line-height: 1.4;
+        }
+
+        .fps-counter {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 10px 15px;
+            border-radius: 5px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            z-index: 1000;
+            font-size: 14px;
+            color: #0f0;
+        }
+
+        @media (max-width: 768px) {
+            .controls {
+                top: 10px;
+                right: 10px;
+                left: 10px;
+                min-width: auto;
+            }
+
+            .info {
+                bottom: 10px;
+                left: 10px;
+                right: 10px;
+                max-width: none;
+            }
+
+            .fps-counter {
+                top: 10px;
+                left: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="starfield-container"></div>
+    
+    <div class="fps-counter" id="fps-counter">FPS: 60</div>
+    
+    <div class="controls">
+        <div class="control-group">
+            <label>Star Count: <span id="star-count">20000</span></label>
+            <input type="range" id="star-count-slider" min="5000" max="50000" value="20000" step="1000">
+        </div>
+        
+        <div class="control-group">
+            <label>Twinkle Speed: <span id="twinkle-speed">1.0</span></label>
+            <input type="range" id="twinkle-speed-slider" min="0.1" max="3.0" value="1.0" step="0.1">
+        </div>
+        
+        <div class="control-group">
+            <label>Shooting Star Frequency: <span id="shooting-frequency">3.0</span>s</label>
+            <input type="range" id="shooting-frequency-slider" min="1.0" max="10.0" value="3.0" step="0.5">
+        </div>
+        
+        <div class="control-group">
+            <label>Mouse Sensitivity: <span id="mouse-sensitivity">0.5</span></label>
+            <input type="range" id="mouse-sensitivity-slider" min="0.1" max="2.0" value="0.5" step="0.1">
+        </div>
+        
+        <div class="control-group">
+            <label>Star Color:</label>
+            <input type="color" id="star-color" value="#ffffff">
+        </div>
+        
+        <div class="control-group">
+            <label>Color Presets:</label>
+            <div class="preset-buttons">
+                <button class="preset-btn active" data-preset="classic" style="background: #fff; color: #000;">Classic</button>
+                <button class="preset-btn" data-preset="blue" style="background: #4fc3f7; color: #000;">Blue</button>
+                <button class="preset-btn" data-preset="purple" style="background: #9c27b0; color: #fff;">Purple</button>
+                <button class="preset-btn" data-preset="gold" style="background: #ffd700; color: #000;">Gold</button>
+                <button class="preset-btn" data-preset="green" style="background: #4caf50; color: #fff;">Green</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="info">
+        <h3>3D Starfield</h3>
+        <p>Move your mouse to see parallax effect. Shooting stars appear randomly. Use controls to customize the experience.</p>
+        <p><strong>Performance:</strong> Optimized for 60 FPS on mobile devices</p>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r158/three.min.js"></script>
+    <script>
+        class Starfield {
+            constructor() {
+                this.scene = null;
+                this.camera = null;
+                this.renderer = null;
+                this.stars = [];
+                this.shootingStars = [];
+                this.mouseX = 0;
+                this.mouseY = 0;
+                this.starCount = 20000;
+                this.twinkleSpeed = 1.0;
+                this.shootingStarFrequency = 3.0;
+                this.mouseSensitivity = 0.5;
+                this.starColor = 0xffffff;
+                this.lastShootingStarTime = 0;
+                this.clock = new THREE.Clock();
+                this.fpsCounter = 0;
+                this.lastFpsUpdate = 0;
+                
+                this.init();
+                this.setupControls();
+                this.animate();
+            }
+
+            init() {
+                // Scene setup
+                this.scene = new THREE.Scene();
+                
+                // Camera setup
+                this.camera = new THREE.PerspectiveCamera(
+                    75, 
+                    window.innerWidth / window.innerHeight, 
+                    0.1, 
+                    1000
+                );
+                this.camera.position.z = 50;
+                
+                // Renderer setup
+                this.renderer = new THREE.WebGLRenderer({ 
+                    antialias: true,
+                    alpha: true 
+                });
+                this.renderer.setSize(window.innerWidth, window.innerHeight);
+                this.renderer.setClearColor(0x000000, 0);
+                document.getElementById('starfield-container').appendChild(this.renderer.domElement);
+                
+                // Create stars
+                this.createStars();
+                
+                // Mouse event listeners
+                document.addEventListener('mousemove', (event) => {
+                    this.mouseX = (event.clientX / window.innerWidth) * 2 - 1;
+                    this.mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
+                });
+                
+                // Touch event listeners for mobile
+                document.addEventListener('touchmove', (event) => {
+                    event.preventDefault();
+                    const touch = event.touches[0];
+                    this.mouseX = (touch.clientX / window.innerWidth) * 2 - 1;
+                    this.mouseY = -(touch.clientY / window.innerHeight) * 2 + 1;
+                });
+                
+                // Window resize
+                window.addEventListener('resize', () => this.onWindowResize());
+            }
+
+            createStars() {
+                // Clear existing stars
+                this.stars.forEach(star => this.scene.remove(star));
+                this.stars = [];
+                
+                // Create star geometry with BufferGeometry for performance
+                const starGeometry = new THREE.BufferGeometry();
+                const positions = [];
+                const colors = [];
+                const sizes = [];
+                const opacities = [];
+                
+                for (let i = 0; i < this.starCount; i++) {
+                    // Random position in 3D space
+                    const x = (Math.random() - 0.5) * 2000;
+                    const y = (Math.random() - 0.5) * 2000;
+                    const z = (Math.random() - 0.5) * 2000;
+                    
+                    positions.push(x, y, z);
+                    
+                    // Color variation (some stars slightly blue/yellow)
+                    const colorVariation = Math.random();
+                    let r, g, b;
+                    
+                    if (colorVariation < 0.8) {
+                        // White stars
+                        r = g = b = 1.0;
+                    } else if (colorVariation < 0.9) {
+                        // Slightly blue stars
+                        r = g = 0.8;
+                        b = 1.0;
+                    } else {
+                        // Slightly yellow stars
+                        r = g = 1.0;
+                        b = 0.8;
+                    }
+                    
+                    colors.push(r, g, b);
+                    
+                    // Random size (0.5 to 2.0)
+                    const size = Math.random() * 1.5 + 0.5;
+                    sizes.push(size);
+                    
+                    // Random initial opacity
+                    opacities.push(Math.random());
+                }
+                
+                starGeometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+                starGeometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+                starGeometry.setAttribute('size', new THREE.Float32BufferAttribute(sizes, 1));
+                starGeometry.setAttribute('opacity', new THREE.Float32BufferAttribute(opacities, 1));
+                
+                // Create shader material for twinkling effect
+                const starMaterial = new THREE.ShaderMaterial({
+                    uniforms: {
+                        time: { value: 0 },
+                        twinkleSpeed: { value: this.twinkleSpeed }
+                    },
+                    vertexShader: `
+                        attribute float size;
+                        attribute float opacity;
+                        varying float vOpacity;
+                        varying vec3 vColor;
+                        
+                        void main() {
+                            vOpacity = opacity;
+                            vColor = color;
+                            vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
+                            gl_PointSize = size * (300.0 / -mvPosition.z);
+                            gl_Position = projectionMatrix * mvPosition;
+                        }
+                    `,
+                    fragmentShader: `
+                        uniform float time;
+                        uniform float twinkleSpeed;
+                        varying float vOpacity;
+                        varying vec3 vColor;
+                        
+                        void main() {
+                            float twinkle = sin(time * twinkleSpeed + gl_PointCoord.x * 10.0) * 0.5 + 0.5;
+                            float alpha = vOpacity * twinkle;
+                            
+                            if (length(gl_PointCoord - vec2(0.5)) > 0.5) {
+                                discard;
+                            }
+                            
+                            gl_FragColor = vec4(vColor, alpha);
+                        }
+                    `,
+                    transparent: true,
+                    blending: THREE.AdditiveBlending,
+                    depthWrite: false
+                });
+                
+                const starSystem = new THREE.Points(starGeometry, starMaterial);
+                this.scene.add(starSystem);
+                this.stars.push(starSystem);
+            }
+
+            createShootingStar() {
+                const startX = (Math.random() - 0.5) * 1000;
+                const startY = (Math.random() - 0.5) * 1000;
+                const startZ = (Math.random() - 0.5) * 1000;
+                
+                const endX = startX + (Math.random() - 0.5) * 200;
+                const endY = startY + (Math.random() - 0.5) * 200;
+                const endZ = startZ + (Math.random() - 0.5) * 200;
+                
+                const geometry = new THREE.BufferGeometry().setFromPoints([
+                    new THREE.Vector3(startX, startY, startZ),
+                    new THREE.Vector3(endX, endY, endZ)
+                ]);
+                
+                const material = new THREE.LineBasicMaterial({
+                    color: 0xffffff,
+                    transparent: true,
+                    opacity: 1.0
+                });
+                
+                const line = new THREE.Line(geometry, material);
+                this.scene.add(line);
+                
+                const shootingStar = {
+                    line: line,
+                    opacity: 1.0,
+                    fadeSpeed: 0.02
+                };
+                
+                this.shootingStars.push(shootingStar);
+                
+                // Remove shooting star after animation
+                setTimeout(() => {
+                    this.scene.remove(line);
+                    const index = this.shootingStars.indexOf(shootingStar);
+                    if (index > -1) {
+                        this.shootingStars.splice(index, 1);
+                    }
+                }, 2000);
+            }
+
+            setupControls() {
+                // Star count slider
+                const starCountSlider = document.getElementById('star-count-slider');
+                const starCountDisplay = document.getElementById('star-count');
+                
+                starCountSlider.addEventListener('input', (e) => {
+                    this.starCount = parseInt(e.target.value);
+                    starCountDisplay.textContent = this.starCount;
+                    this.createStars();
+                });
+                
+                // Twinkle speed slider
+                const twinkleSpeedSlider = document.getElementById('twinkle-speed-slider');
+                const twinkleSpeedDisplay = document.getElementById('twinkle-speed');
+                
+                twinkleSpeedSlider.addEventListener('input', (e) => {
+                    this.twinkleSpeed = parseFloat(e.target.value);
+                    twinkleSpeedDisplay.textContent = this.twinkleSpeed.toFixed(1);
+                    this.stars.forEach(star => {
+                        star.material.uniforms.twinkleSpeed.value = this.twinkleSpeed;
+                    });
+                });
+                
+                // Shooting star frequency slider
+                const shootingFrequencySlider = document.getElementById('shooting-frequency-slider');
+                const shootingFrequencyDisplay = document.getElementById('shooting-frequency');
+                
+                shootingFrequencySlider.addEventListener('input', (e) => {
+                    this.shootingStarFrequency = parseFloat(e.target.value);
+                    shootingFrequencyDisplay.textContent = this.shootingStarFrequency.toFixed(1);
+                });
+                
+                // Mouse sensitivity slider
+                const mouseSensitivitySlider = document.getElementById('mouse-sensitivity-slider');
+                const mouseSensitivityDisplay = document.getElementById('mouse-sensitivity');
+                
+                mouseSensitivitySlider.addEventListener('input', (e) => {
+                    this.mouseSensitivity = parseFloat(e.target.value);
+                    mouseSensitivityDisplay.textContent = this.mouseSensitivity.toFixed(1);
+                });
+                
+                // Star color picker
+                const starColorPicker = document.getElementById('star-color');
+                starColorPicker.addEventListener('input', (e) => {
+                    const color = new THREE.Color(e.target.value);
+                    this.starColor = color.getHex();
+                    this.updateStarColors();
+                });
+                
+                // Color presets
+                const presetButtons = document.querySelectorAll('.preset-btn');
+                presetButtons.forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        presetButtons.forEach(b => b.classList.remove('active'));
+                        e.target.classList.add('active');
+                        
+                        const preset = e.target.dataset.preset;
+                        this.applyColorPreset(preset);
+                    });
+                });
+            }
+
+            applyColorPreset(preset) {
+                const presets = {
+                    classic: '#ffffff',
+                    blue: '#4fc3f7',
+                    purple: '#9c27b0',
+                    gold: '#ffd700',
+                    green: '#4caf50'
+                };
+                
+                const color = presets[preset];
+                document.getElementById('star-color').value = color;
+                this.starColor = new THREE.Color(color).getHex();
+                this.updateStarColors();
+            }
+
+            updateStarColors() {
+                this.stars.forEach(star => {
+                    const colors = star.geometry.attributes.color.array;
+                    const color = new THREE.Color(this.starColor);
+                    
+                    for (let i = 0; i < colors.length; i += 3) {
+                        colors[i] = color.r;
+                        colors[i + 1] = color.g;
+                        colors[i + 2] = color.b;
+                    }
+                    
+                    star.geometry.attributes.color.needsUpdate = true;
+                });
+            }
+
+            onWindowResize() {
+                this.camera.aspect = window.innerWidth / window.innerHeight;
+                this.camera.updateProjectionMatrix();
+                this.renderer.setSize(window.innerWidth, window.innerHeight);
+            }
+
+            animate() {
+                requestAnimationFrame(() => this.animate());
+                
+                const delta = this.clock.getDelta();
+                const time = this.clock.getElapsedTime();
+                
+                // Update star twinkling
+                this.stars.forEach(star => {
+                    star.material.uniforms.time.value = time;
+                });
+                
+                // Update shooting stars
+                this.shootingStars.forEach(shootingStar => {
+                    shootingStar.opacity -= shootingStar.fadeSpeed;
+                    shootingStar.line.material.opacity = shootingStar.opacity;
+                });
+                
+                // Create new shooting stars
+                if (time - this.lastShootingStarTime > this.shootingStarFrequency) {
+                    this.createShootingStar();
+                    this.lastShootingStarTime = time;
+                }
+                
+                // Mouse parallax effect
+                this.camera.position.x += (this.mouseX * 10 * this.mouseSensitivity - this.camera.position.x) * 0.05;
+                this.camera.position.y += (this.mouseY * 10 * this.mouseSensitivity - this.camera.position.y) * 0.05;
+                this.camera.lookAt(this.scene.position);
+                
+                // Render
+                this.renderer.render(this.scene, this.camera);
+                
+                // FPS counter
+                this.fpsCounter++;
+                if (time - this.lastFpsUpdate >= 1.0) {
+                    const fps = Math.round(this.fpsCounter / (time - this.lastFpsUpdate));
+                    document.getElementById('fps-counter').textContent = `FPS: ${fps}`;
+                    this.fpsCounter = 0;
+                    this.lastFpsUpdate = time;
+                }
+            }
+        }
+
+        // Initialize starfield when page loads
+        window.addEventListener('load', () => {
+            new Starfield();
+        });
+    </script>
+</body>
+</html> 

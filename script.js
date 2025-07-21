@@ -1,5 +1,253 @@
 console.log("Script file loaded");
 
+// 3D Starfield Class
+class Starfield {
+    constructor() {
+        this.scene = null;
+        this.camera = null;
+        this.renderer = null;
+        this.stars = [];
+        this.shootingStars = [];
+        this.mouseX = 0;
+        this.mouseY = 0;
+        this.starCount = 20000;
+        this.twinkleSpeed = 1.0;
+        this.shootingStarFrequency = 3.0;
+        this.mouseSensitivity = 0.5;
+        this.starColor = 0xffffff;
+        this.lastShootingStarTime = 0;
+        this.clock = new THREE.Clock();
+        this.fpsCounter = 0;
+        this.lastFpsUpdate = 0;
+        
+        this.init();
+        this.animate();
+    }
+
+    init() {
+        // Scene setup
+        this.scene = new THREE.Scene();
+        
+        // Camera setup
+        this.camera = new THREE.PerspectiveCamera(
+            75, 
+            window.innerWidth / window.innerHeight, 
+            0.1, 
+            1000
+        );
+        this.camera.position.z = 50;
+        
+        // Renderer setup
+        this.renderer = new THREE.WebGLRenderer({ 
+            antialias: true,
+            alpha: true 
+        });
+        this.renderer.setSize(window.innerWidth, window.innerHeight);
+        this.renderer.setClearColor(0x000000, 0);
+        document.getElementById('starfield-container').appendChild(this.renderer.domElement);
+        
+        // Create stars
+        this.createStars();
+        
+        // Mouse event listeners
+        document.addEventListener('mousemove', (event) => {
+            this.mouseX = (event.clientX / window.innerWidth) * 2 - 1;
+            this.mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
+        });
+        
+        // Touch event listeners for mobile
+        document.addEventListener('touchmove', (event) => {
+            event.preventDefault();
+            const touch = event.touches[0];
+            this.mouseX = (touch.clientX / window.innerWidth) * 2 - 1;
+            this.mouseY = -(touch.clientY / window.innerHeight) * 2 + 1;
+        });
+        
+        // Window resize
+        window.addEventListener('resize', () => this.onWindowResize());
+    }
+
+    createStars() {
+        // Clear existing stars
+        this.stars.forEach(star => this.scene.remove(star));
+        this.stars = [];
+        
+        // Create star geometry with BufferGeometry for performance
+        const starGeometry = new THREE.BufferGeometry();
+        const positions = [];
+        const colors = [];
+        const sizes = [];
+        const opacities = [];
+        
+        for (let i = 0; i < this.starCount; i++) {
+            // Random position in 3D space
+            const x = (Math.random() - 0.5) * 2000;
+            const y = (Math.random() - 0.5) * 2000;
+            const z = (Math.random() - 0.5) * 2000;
+            
+            positions.push(x, y, z);
+            
+            // Color variation (some stars slightly blue/yellow)
+            const colorVariation = Math.random();
+            let r, g, b;
+            
+            if (colorVariation < 0.8) {
+                // White stars
+                r = g = b = 1.0;
+            } else if (colorVariation < 0.9) {
+                // Slightly blue stars
+                r = g = 0.8;
+                b = 1.0;
+            } else {
+                // Slightly yellow stars
+                r = g = 1.0;
+                b = 0.8;
+            }
+            
+            colors.push(r, g, b);
+            
+            // Random size (0.5 to 2.0)
+            const size = Math.random() * 1.5 + 0.5;
+            sizes.push(size);
+            
+            // Random initial opacity
+            opacities.push(Math.random());
+        }
+        
+        starGeometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+        starGeometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+        starGeometry.setAttribute('size', new THREE.Float32BufferAttribute(sizes, 1));
+        starGeometry.setAttribute('opacity', new THREE.Float32BufferAttribute(opacities, 1));
+        
+        // Create shader material for twinkling effect
+        const starMaterial = new THREE.ShaderMaterial({
+            uniforms: {
+                time: { value: 0 },
+                twinkleSpeed: { value: this.twinkleSpeed }
+            },
+            vertexShader: `
+                attribute float size;
+                attribute float opacity;
+                varying float vOpacity;
+                varying vec3 vColor;
+                
+                void main() {
+                    vOpacity = opacity;
+                    vColor = color;
+                    vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
+                    gl_PointSize = size * (300.0 / -mvPosition.z);
+                    gl_Position = projectionMatrix * mvPosition;
+                }
+            `,
+            fragmentShader: `
+                uniform float time;
+                uniform float twinkleSpeed;
+                varying float vOpacity;
+                varying vec3 vColor;
+                
+                void main() {
+                    float twinkle = sin(time * twinkleSpeed + gl_PointCoord.x * 10.0) * 0.5 + 0.5;
+                    float alpha = vOpacity * twinkle;
+                    
+                    if (length(gl_PointCoord - vec2(0.5)) > 0.5) {
+                        discard;
+                    }
+                    
+                    gl_FragColor = vec4(vColor, alpha);
+                }
+            `,
+            transparent: true,
+            blending: THREE.AdditiveBlending,
+            depthWrite: false
+        });
+        
+        const starSystem = new THREE.Points(starGeometry, starMaterial);
+        this.scene.add(starSystem);
+        this.stars.push(starSystem);
+    }
+
+    createShootingStar() {
+        const startX = (Math.random() - 0.5) * 1000;
+        const startY = (Math.random() - 0.5) * 1000;
+        const startZ = (Math.random() - 0.5) * 1000;
+        
+        const endX = startX + (Math.random() - 0.5) * 200;
+        const endY = startY + (Math.random() - 0.5) * 200;
+        const endZ = startZ + (Math.random() - 0.5) * 200;
+        
+        const geometry = new THREE.BufferGeometry().setFromPoints([
+            new THREE.Vector3(startX, startY, startZ),
+            new THREE.Vector3(endX, endY, endZ)
+        ]);
+        
+        const material = new THREE.LineBasicMaterial({
+            color: 0xffffff,
+            transparent: true,
+            opacity: 1.0
+        });
+        
+        const line = new THREE.Line(geometry, material);
+        this.scene.add(line);
+        
+        const shootingStar = {
+            line: line,
+            opacity: 1.0,
+            fadeSpeed: 0.02
+        };
+        
+        this.shootingStars.push(shootingStar);
+        
+        // Remove shooting star after animation
+        setTimeout(() => {
+            this.scene.remove(line);
+            const index = this.shootingStars.indexOf(shootingStar);
+            if (index > -1) {
+                this.shootingStars.splice(index, 1);
+            }
+        }, 2000);
+    }
+
+    onWindowResize() {
+        this.camera.aspect = window.innerWidth / window.innerHeight;
+        this.camera.updateProjectionMatrix();
+        this.renderer.setSize(window.innerWidth, window.innerHeight);
+    }
+
+    animate() {
+        requestAnimationFrame(() => this.animate());
+        
+        const delta = this.clock.getDelta();
+        const time = this.clock.getElapsedTime();
+        
+        // Update star twinkling
+        this.stars.forEach(star => {
+            star.material.uniforms.time.value = time;
+        });
+        
+        // Update shooting stars
+        this.shootingStars.forEach(shootingStar => {
+            shootingStar.opacity -= shootingStar.fadeSpeed;
+            shootingStar.line.material.opacity = shootingStar.opacity;
+        });
+        
+        // Create new shooting stars
+        if (time - this.lastShootingStarTime > this.shootingStarFrequency) {
+            this.createShootingStar();
+            this.lastShootingStarTime = time;
+        }
+        
+        // Mouse parallax effect
+        this.camera.position.x += (this.mouseX * 10 * this.mouseSensitivity - this.camera.position.x) * 0.05;
+        this.camera.position.y += (this.mouseY * 10 * this.mouseSensitivity - this.camera.position.y) * 0.05;
+        this.camera.lookAt(this.scene.position);
+        
+        // Render
+        this.renderer.render(this.scene, this.camera);
+    }
+}
+
+// Initialize starfield when page loads
+let starfield;
 document.addEventListener('DOMContentLoaded', function() {
     console.log("DOM loaded, initializing...");
     
@@ -168,6 +416,14 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             });
         }
     });
+    
+    // Initialize 3D Starfield
+    try {
+        starfield = new Starfield();
+        console.log('3D Starfield initialized successfully');
+    } catch (error) {
+        console.error('Failed to initialize 3D Starfield:', error);
+    }
 });
 
 // Add some interactive effects
