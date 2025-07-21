@@ -659,8 +659,8 @@ body {
     box-shadow: none !important;
     color: var(--text-primary) !important;
     text-shadow: none !important;
-    backdrop-filter: blur(4px) !important;
-    -webkit-backdrop-filter: blur(4px) !important;
+    backdrop-filter: blur(2px) !important;
+    -webkit-backdrop-filter: blur(2px) !important;
 }
 
 @media (max-width: 900px) {
