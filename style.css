@@ -684,3 +684,30 @@ body {
     -webkit-backdrop-filter: blur(0.3px) !important;
   }
 }
+
+.profile-section {
+    position: fixed !important;
+    top: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90vw;
+    max-width: 600px;
+    z-index: 100;
+}
+
+/* Add padding to .container so content is not hidden behind the fixed profile-section */
+.container {
+    padding-top: 220px !important;
+}
+
+@media (max-width: 600px) {
+  .profile-section {
+    top: 12px;
+    width: 98vw;
+    max-width: 98vw;
+    padding: 16px 4vw;
+  }
+  .container {
+    padding-top: 180px !important;
+  }
+}
