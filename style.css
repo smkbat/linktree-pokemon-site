@@ -21,10 +21,11 @@
     left: 0;
     width: 100vw;
     height: 100vh;
-    z-index: -2;
+    z-index: -10; /* Lower z-index to ensure it's behind everything */
     background: transparent;
     background-image: none;
     background-size: unset;
+    overflow: hidden; /* Prevent any overflow issues */
 }
 
 #starfield-container canvas {
@@ -34,7 +35,7 @@
     position: absolute;
     top: 0;
     left: 0;
-    pointer-events: none;
+    pointer-events: none; /* Allow clicks to pass through */
 }
 
 
@@ -46,28 +47,14 @@
 
 body {
     font-family: 'Quicksand', sans-serif;
-    background: transparent;
+    background: #000010; /* Dark background to match the galaxy */
     color: var(--text-primary);
     min-height: 100vh;
     position: relative;
     overflow-x: hidden;
 }
 
-/* Pokémon background pattern */
-body::before {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: 
-        radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 40% 40%, rgba(255, 255, 255, 0.05) 0%, transparent 50%);
-    pointer-events: none;
-    z-index: -1;
-}
+/* We're removing the Pokémon background pattern to let the galaxy background shine through */
 
 .container {
     max-width: 600px;
@@ -79,6 +66,7 @@ body::before {
     position: relative;
     z-index: 1;
     background: transparent;
+    pointer-events: auto; /* Ensure UI elements are clickable */
 }
 
 /* Profile Section */
