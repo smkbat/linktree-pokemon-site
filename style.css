@@ -219,7 +219,7 @@ body {
     background: rgba(30, 30, 50, 0.35);
     border-radius: 15px;
     text-decoration: none;
-    color: #fff;
+    color: var(--text-primary);
     font-weight: 600;
     font-size: 1.1rem;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
@@ -260,7 +260,7 @@ body {
     justify-content: center;
     margin-right: 15px;
     font-size: 1.2rem;
-    color: #fff;
+    color: var(--text-primary);
     flex-shrink: 0;
     background: rgba(30, 30, 50, 0.35);
     backdrop-filter: blur(var(--glass-blur));
@@ -274,10 +274,13 @@ body {
 .cashapp-btn .btn-icon,
 .paypal-btn .btn-icon,
 .instagram-btn .btn-icon {
-    background: rgba(30, 30, 50, 0.35);
-    backdrop-filter: blur(var(--glass-blur));
-    -webkit-backdrop-filter: blur(var(--glass-blur));
-    border: 1px solid var(--glass-border);
+    background: rgba(30, 30, 50, 0.35) !important;
+    backdrop-filter: blur(15px) !important;
+    -webkit-backdrop-filter: blur(15px) !important;
+    border: 1px solid rgba(255,255,255,0.1) !important;
+    box-shadow: none !important;
+    color: inherit !important;
+    text-shadow: none !important;
 }
 
 .btn-text {
