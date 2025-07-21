@@ -24,22 +24,22 @@
     position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -999; /* Much lower z-index to ensure it's behind everything */
-    background: #000010;
+    width: 100vw;
+    height: 100vh;
+    z-index: -2;
+    background: transparent !important;
     overflow: hidden;
-    pointer-events: none; /* Allow clicks to pass through */
+    pointer-events: none;
 }
 
 #starfield-container canvas {
     display: block;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
+    width: 100vw;
+    height: 100vh;
     position: absolute;
     top: 0;
     left: 0;
+    pointer-events: none;
 }
 
 /* Reset */
@@ -50,9 +50,7 @@
 }
 
 /* Base styles */
-html, body {
-    height: 100%;
-    width: 100%;
+html, body, .container, .profile-section, .cards-container, .card-item, .link-btn, .tab-container {
     background: transparent !important;
 }
 
@@ -213,11 +211,12 @@ body {
     gap: 15px;
 }
 
+/* Glass effect for main tiles and buttons */
 .link-btn {
     display: flex;
     align-items: center;
     padding: 20px 25px;
-    background: rgba(30, 30, 50, 0.25);
+    background: rgba(30, 30, 50, 0.35);
     border-radius: 15px;
     text-decoration: none;
     color: #fff;
@@ -261,8 +260,24 @@ body {
     justify-content: center;
     margin-right: 15px;
     font-size: 1.2rem;
-    color: white;
+    color: #fff;
     flex-shrink: 0;
+    background: rgba(30, 30, 50, 0.35);
+    backdrop-filter: blur(var(--glass-blur));
+    -webkit-backdrop-filter: blur(var(--glass-blur));
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+/* Remove solid gradients from .btn-icon variants */
+.venmo-btn .btn-icon,
+.cashapp-btn .btn-icon,
+.paypal-btn .btn-icon,
+.instagram-btn .btn-icon {
+    background: rgba(30, 30, 50, 0.35);
+    backdrop-filter: blur(var(--glass-blur));
+    -webkit-backdrop-filter: blur(var(--glass-blur));
+    border: 1px solid var(--glass-border);
 }
 
 .btn-text {
@@ -436,14 +451,10 @@ body {
 
 /* Responsive Design */
 @media (max-width: 768px) {
-    /* Force the starfield to be behind everything on mobile */
     #starfield-container {
-        z-index: -999 !important;
-        position: fixed !important;
-        top: 0 !important;
-        left: 0 !important;
-        width: 100% !important;
-        height: 100% !important;
+        z-index: -2 !important;
+        width: 100vw !important;
+        height: 100vh !important;
     }
     
     /* Ensure container is above the starfield */
