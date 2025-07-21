@@ -467,29 +467,31 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         }
     });
     
-    // Initialize 3D Starfield
-    try {
-        // Check if Three.js is loaded
-        if (typeof THREE === 'undefined') {
-            console.error('Three.js not loaded');
-            // Create fallback background
+    // Initialize 3D Starfield with retry logic
+    function initStarfield() {
+        try {
+            // Check if Three.js is loaded
+            if (typeof THREE === 'undefined') {
+                console.log('Three.js not loaded yet, waiting...');
+                setTimeout(initStarfield, 100); // Retry in 100ms
+                return;
+            }
+            
+            console.log('Three.js loaded, initializing starfield...');
+            starfield = new Starfield();
+            console.log('3D Starfield initialized successfully');
+        } catch (error) {
+            console.error('Failed to initialize 3D Starfield:', error);
+            // Create fallback background on error
             const container = document.getElementById('starfield-container');
             if (container) {
                 container.style.background = 'linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%)';
             }
-            return;
-        }
-        
-        starfield = new Starfield();
-        console.log('3D Starfield initialized successfully');
-    } catch (error) {
-        console.error('Failed to initialize 3D Starfield:', error);
-        // Create fallback background on error
-        const container = document.getElementById('starfield-container');
-        if (container) {
-            container.style.background = 'linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%)';
         }
     }
+    
+    // Start initialization
+    initStarfield();
 });
 
 // Add some interactive effects

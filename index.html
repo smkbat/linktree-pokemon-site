@@ -7,7 +7,16 @@
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Fredoka+One:wght@400&family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r158/three.min.js?v=20241220"></script>
+    <script src="https://unpkg.com/three@0.158.0/build/three.min.js"></script>
+    <script>
+        // Fallback if unpkg fails
+        if (typeof THREE === 'undefined') {
+            console.log('Trying fallback CDN...');
+            const script = document.createElement('script');
+            script.src = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r158/three.min.js';
+            document.head.appendChild(script);
+        }
+    </script>
 </head>
 <body>
     <!-- 3D Starfield Background -->

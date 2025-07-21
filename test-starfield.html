@@ -43,7 +43,16 @@
         .error { color: #f44336; }
         .info { color: #2196F3; }
     </style>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r158/three.min.js"></script>
+    <script src="https://unpkg.com/three@0.158.0/build/three.min.js"></script>
+    <script>
+        // Fallback if unpkg fails
+        if (typeof THREE === 'undefined') {
+            console.log('Trying fallback CDN...');
+            const script = document.createElement('script');
+            script.src = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r158/three.min.js';
+            document.head.appendChild(script);
+        }
+    </script>
 </head>
 <body>
     <div id="starfield-container"></div>
